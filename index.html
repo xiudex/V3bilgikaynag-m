@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>bilgi kaynağım — Türkiye'nin Not Platformu</title>
+<meta name="description" content="Binlerce öğrencinin paylaştığı notlara, özetlere ve sınav tüyolarına tek yerden ulaş. YKS, KPSS, LGS ve daha fazlası için ücretsiz not platformu.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F5F7FA;--bg2:#ECEEF2;--txt:#1A1D23;--txt2:#5A6070;
+  --acc:#007AFF;--acc2:#0055D4;--acc-l:rgba(0,122,255,.10);
+  --white:#fff;
+  --sh:0 4px 24px rgba(0,0,0,.07);--sh-md:0 8px 40px rgba(0,0,0,.10);--sh-lg:0 20px 60px rgba(0,0,0,.13);
+  --r:14px;--r2:20px;--r3:28px;
+  --fh:'Bricolage Grotesque',sans-serif;--fb:'Inter',sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);--ease2:cubic-bezier(.16,1,.3,1);
+}
+html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+body{font-family:var(--fb);background:var(--bg);color:var(--txt);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:900;height:64px;
+  display:flex;align-items:center;justify-content:space-between;padding:0 5vw;
+  background:rgba(245,247,250,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(0,0,0,.06);transition:box-shadow .3s}
+.nav-logo{font-family:var(--fh);font-size:20px;font-weight:800;color:var(--txt);
+  cursor:pointer;letter-spacing:-.5px;text-decoration:none;transition:opacity .2s}
+.nav-logo:hover{opacity:.7}
+.nav-logo span{color:var(--acc)}
+.nav-btn{padding:9px 22px;border-radius:50px;border:none;background:var(--acc);color:#fff;
+  font-family:var(--fb);font-size:14px;font-weight:600;cursor:pointer;
+  transition:transform .15s var(--ease2),background .2s,box-shadow .2s;
+  box-shadow:0 2px 12px rgba(0,122,255,.30)}
+.nav-btn:hover{background:var(--acc2);transform:scale(1.04);box-shadow:0 4px 20px rgba(0,122,255,.40)}
+.nav-btn:active{transform:scale(.97)}
+
+/* HERO */
+#hero{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;
+  padding:80px 5vw 100px;gap:40px;position:relative;overflow:hidden;flex-direction:column;text-align:center}
+.hero-text{flex:1;min-width:280px;max-width:680px;text-align:center;margin:0 auto}
+.hero-badge{display:inline-flex;align-items:center;gap:7px;padding:6px 16px;border-radius:50px;
+  background:var(--white);border:1px solid rgba(0,0,0,.08);box-shadow:var(--sh);
+  font-size:12px;font-weight:600;color:var(--txt2);margin-bottom:24px;
+  opacity:0;transform:translateY(12px);animation:fadeUp .7s var(--ease2) .1s forwards}
+.hero-badge::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--acc)}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+.hero-title{font-family:var(--fh);font-size:clamp(38px,5.5vw,64px);font-weight:800;
+  line-height:1.08;letter-spacing:-2px;color:var(--txt);margin-bottom:20px;
+  opacity:0;transform:translateY(16px);animation:fadeUp .8s var(--ease2) .2s forwards}
+.hero-title .acc{color:var(--acc)}
+.hero-sub{font-size:clamp(15px,1.6vw,17px);line-height:1.7;color:var(--txt2);
+  max-width:440px;margin-bottom:32px;
+  opacity:0;transform:translateY(12px);animation:fadeUp .8s var(--ease2) .35s forwards}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:40px;justify-content:center;
+  opacity:0;transform:translateY(10px);animation:fadeUp .7s var(--ease2) .5s forwards}
+.btn-primary{padding:13px 28px;border-radius:50px;border:none;background:var(--acc);color:#fff;
+  font-family:var(--fb);font-size:15px;font-weight:600;cursor:pointer;
+  transition:transform .15s var(--ease2),box-shadow .2s,background .2s;
+  box-shadow:0 4px 20px rgba(0,122,255,.35)}
+.btn-primary:hover{background:var(--acc2);transform:scale(1.04);box-shadow:0 6px 28px rgba(0,122,255,.45)}
+.btn-primary:active{transform:scale(.97);transition:transform .08s}
+.hero-stats{display:flex;gap:0;align-items:center;flex-wrap:wrap;justify-content:center;
+  opacity:0;animation:fadeUp .7s var(--ease2) .65s forwards}
+.hstat{padding:0 24px 0 0}
+.hstat:first-child{padding-left:0}
+.hstat b{display:block;font-family:var(--fh);font-size:24px;font-weight:800;color:var(--acc)}
+.hstat span{font-size:12px;color:var(--txt2);margin-top:2px;display:block}
+.hstat-sep{width:1px;height:36px;background:rgba(0,0,0,.1);margin-right:24px}
+
+/* SCROLL HINT */
+.scroll-hint{position:absolute;bottom:28px;left:0;right:0;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  opacity:0;animation:fadeUp .6s var(--ease2) 1.2s forwards;pointer-events:all;
+  background:none;border:none;cursor:pointer;padding:0;text-decoration:none}
+.scroll-hint span{font-size:11px;color:var(--txt2);letter-spacing:.5px;font-weight:500;
+  text-transform:uppercase;transition:color .2s}
+.scroll-hint:hover span{color:var(--acc)}
+.scroll-arrow{width:28px;height:28px;border-radius:50%;border:none;background:none;
+  display:flex;align-items:center;justify-content:center;
+  animation:bounce 2s ease-in-out infinite;transition:border-color .2s}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+.section .scroll-hint,#features .scroll-hint,#cta .scroll-hint{animation:none;opacity:1}
+
+/* SECTION ORTAK */
+.section{min-height:100vh;min-height:100dvh;display:flex;align-items:center;padding:100px 5vw;
+  position:relative;overflow:hidden}
+.section-inner{width:100%;max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:80px}
+.section-inner.rev{flex-direction:row-reverse}
+.section-text{flex:1;min-width:280px}
+.section-visual{flex:1;min-width:300px;max-width:460px;display:flex;align-items:center;justify-content:center}
+.section-tag{display:inline-block;padding:5px 14px;border-radius:50px;background:var(--acc-l);
+  color:var(--acc);font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:16px}
+.section-title{font-family:var(--fh);font-size:clamp(32px,4vw,52px);font-weight:800;
+  line-height:1.1;letter-spacing:-1.5px;color:var(--txt);margin-bottom:16px}
+.section-desc{font-size:16px;line-height:1.75;color:var(--txt2);max-width:420px}
+#s1{background:var(--bg)}
+#s2{background:var(--white)}
+#s3{background:var(--bg)}
+
+/* FEATURES */
+#features{padding:100px 5vw 80px;background:var(--white);position:relative;min-height:100vh;min-height:100dvh;display:flex;align-items:center}
+.features-inner{max-width:1100px;margin:0 auto}
+.features-hdr{text-align:center;margin-bottom:64px}
+.features-hdr h2{font-family:var(--fh);font-size:clamp(28px,3.5vw,44px);font-weight:800;
+  letter-spacing:-1.5px;color:var(--txt);margin-bottom:12px}
+.features-hdr p{font-size:16px;color:var(--txt2)}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.feat-card{background:var(--bg);border-radius:var(--r2);padding:36px 28px;
+  border:1px solid rgba(0,0,0,.06);transition:transform .3s var(--ease2),box-shadow .3s;
+  opacity:0;transform:translateY(32px)}
+.feat-card:hover{transform:translateY(-4px)!important;box-shadow:var(--sh-lg)}
+.feat-icon-wrap{width:64px;height:64px;margin-bottom:20px;position:relative}
+.feat-card h3{font-family:var(--fh);font-size:20px;font-weight:700;letter-spacing:-.5px;
+  margin-bottom:10px;color:var(--txt)}
+.feat-card p{font-size:14px;line-height:1.7;color:var(--txt2)}
+
+/* CTA */
+#cta{padding:80px 5vw 100px;background:transparent;position:relative}
+.cta-card{max-width:800px;margin:0 auto;background:var(--acc);border-radius:var(--r3);
+  padding:60px 48px;text-align:center;box-shadow:0 24px 64px rgba(0,122,255,.25);
+  opacity:0;transform:translateY(24px)}
+.cta-card h2{font-family:var(--fh);font-size:clamp(26px,3vw,38px);font-weight:800;
+  color:#fff;letter-spacing:-1px;margin-bottom:12px}
+.cta-card p{font-size:16px;color:rgba(255,255,255,.75);margin-bottom:32px}
+.btn-white{padding:14px 32px;border-radius:50px;border:none;background:#fff;color:var(--acc);
+  font-family:var(--fb);font-size:15px;font-weight:700;cursor:pointer;
+  transition:transform .15s var(--ease2),box-shadow .2s;box-shadow:0 4px 20px rgba(0,0,0,.15)}
+.btn-white:hover{transform:scale(1.05);box-shadow:0 8px 32px rgba(0,0,0,.2)}
+.btn-white:active{transform:scale(.97)}
+
+/* FOOTER */
+footer{padding:32px 5vw;border-top:1px solid rgba(0,0,0,.07);
+  display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--txt2)}
+footer a{color:var(--txt2);text-decoration:none}
+footer a:hover{color:var(--acc)}
+
+/* LOGIN MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:2000;
+  background:rgba(10,12,20,.45);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .3s var(--ease)}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.login-modal{width:100%;max-width:800px;min-height:420px;
+  background:var(--white);border-radius:var(--r3);
+  display:flex;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.18);
+  transform:translateY(24px) scale(.97);transition:transform .35s var(--ease2);position:relative}
+.modal-overlay.open .login-modal{transform:none}
+.modal-close{position:absolute;top:18px;right:18px;width:32px;height:32px;border-radius:50%;
+  border:none;background:rgba(0,0,0,.06);color:var(--txt2);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:16px;
+  transition:background .2s,transform .15s;z-index:5}
+.modal-close:hover{background:rgba(0,0,0,.1);transform:scale(1.1)}
+.modal-left{flex:1;background:linear-gradient(135deg,#1A1D23 0%,#2d3142 100%);
+  padding:48px 40px;display:flex;flex-direction:column;justify-content:center;color:#fff}
+.modal-left .ml-logo{font-family:var(--fh);font-size:18px;font-weight:800;
+  color:#fff;margin-bottom:32px;opacity:.7}
+.modal-left .ml-logo span{color:var(--acc)}
+.modal-left h2{font-family:var(--fh);font-size:32px;font-weight:800;
+  letter-spacing:-1px;margin-bottom:12px;line-height:1.15}
+.modal-left p{font-size:14px;line-height:1.6;opacity:.65;margin-bottom:28px}
+.ml-features{list-style:none;display:flex;flex-direction:column;gap:10px}
+.ml-features li{display:flex;align-items:center;gap:10px;font-size:13px;opacity:.8}
+.ml-features li::before{content:'';width:18px;height:18px;border-radius:5px;background:var(--acc);
+  flex-shrink:0;
+  background-image:url("data:image/svg+xml,%3Csvg width='10' height='8' viewBox='0 0 10 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4L3.5 6.5L9 1' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:center}
+.modal-right{flex:1;padding:48px 40px;display:flex;flex-direction:column;justify-content:center}
+.modal-right h3{font-family:var(--fh);font-size:26px;font-weight:800;
+  letter-spacing:-.8px;color:var(--txt);margin-bottom:6px}
+.modal-right .mr-sub{font-size:14px;color:var(--txt2);margin-bottom:28px}
+.login-btn{width:100%;padding:14px 20px;border-radius:14px;border:1.5px solid rgba(0,0,0,.10);
+  background:var(--white);color:var(--txt);font-family:var(--fb);font-size:14px;font-weight:600;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:transform .15s var(--ease2),box-shadow .2s,border-color .2s;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:12px}
+.login-btn:hover{border-color:rgba(0,0,0,.18);transform:scale(1.02);box-shadow:0 4px 16px rgba(0,0,0,.09)}
+.login-btn:active{transform:scale(.98)}
+.login-btn svg{width:20px;height:20px;flex-shrink:0}
+.login-divider{text-align:center;font-size:12px;color:var(--txt2);margin:16px 0;position:relative}
+.login-divider::before,.login-divider::after{content:'';position:absolute;top:50%;
+  width:calc(50% - 24px);height:1px;background:rgba(0,0,0,.08)}
+.login-divider::before{left:0}.login-divider::after{right:0}
+.login-email{width:100%;padding:12px 16px;border-radius:12px;
+  border:1.5px solid rgba(0,0,0,.10);background:var(--bg);
+  font-family:var(--fb);font-size:14px;color:var(--txt);outline:none;
+  transition:border-color .2s;margin-bottom:10px}
+.login-email:focus{border-color:var(--acc)}
+.login-email::placeholder{color:var(--txt2)}
+.login-submit{width:100%;padding:13px;border-radius:12px;border:none;
+  background:var(--acc);color:#fff;font-family:var(--fb);font-size:14px;font-weight:600;
+  cursor:pointer;transition:transform .15s var(--ease2),background .2s,box-shadow .2s;
+  box-shadow:0 4px 16px rgba(0,122,255,.3);margin-top:4px}
+.login-submit:hover{background:var(--acc2);transform:scale(1.02)}
+.login-submit:active{transform:scale(.98)}
+.mr-footer{font-size:11px;color:var(--txt2);text-align:center;margin-top:20px}
+.mr-footer a{color:var(--acc);text-decoration:none}
+
+/* MOBILE */
+@media(max-width:768px){
+  #hero{flex-direction:column;padding:100px 5vw 80px;text-align:center}
+  .hero-btns{justify-content:center}
+  .hero-stats{justify-content:center}
+  .section{padding:80px 5vw;min-height:auto}
+  .section-inner{flex-direction:column!important;gap:40px}
+  .section-text{text-align:center}
+  .section-desc{margin:0 auto}
+  .section-visual{min-width:unset;width:240px;height:240px}
+  .feat-grid{grid-template-columns:1fr}
+  .cta-card{padding:40px 24px}
+  footer{flex-direction:column;gap:12px;text-align:center}
+  .login-modal{flex-direction:column;max-height:90dvh;overflow-y:auto}
+  .modal-left{padding:32px 28px}
+  .modal-right{padding:32px 28px}
+}
+@media(max-width:480px){
+  .hero-title{letter-spacing:-1.5px}
+  .modal-left{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+/* FLOATING PARTICLES */
+#particleCanvas{position:fixed;inset:0;pointer-events:none;z-index:10;overflow:hidden}
+.particle{position:absolute;font-size:22px;opacity:0;user-select:none;pointer-events:none;
+  will-change:transform,opacity;filter:drop-shadow(0 4px 8px rgba(0,0,0,.10));
+  animation:particleDrift linear infinite}
+@keyframes particleDrift{
+  0%  {transform:translateY(0px) rotate(0deg) scale(1);opacity:0}
+  8%  {opacity:.44}
+  92% {opacity:.44}
+  100%{transform:translateY(-100vh) rotate(360deg) scale(1.1);opacity:0}
+}
+</style>
+</head>
+<body>
+
+<div id="particleCanvas" aria-hidden="true"></div>
+
+<nav id="mainNav">
+  <a class="nav-logo" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">bilgi<span>kaynağım</span></a>
+  <button class="nav-btn" onclick="openLogin()">Giriş Yap</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-text">
+    <div class="hero-badge">Türkiye'nin Not Platformu</div>
+    <h1 class="hero-title">Çalışmanı bir<br><span class="acc">üst seviyeye</span><br>taşı.</h1>
+    <p class="hero-sub">Binlerce öğrencinin paylaştığı notlara, özetlere ve sınav tüyolarına tek yerden ulaş. Yalnız değilsin, toplulukla birlikte daha hızlı öğren.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="openLogin()">Ücretsiz Başla →</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><b>12.000+</b><span>Not</span></div>
+      <div class="hstat-sep"></div>
+      <div class="hstat"><b>4.800+</b><span>Üye</span></div>
+      <div class="hstat-sep"></div>
+      <div class="hstat"><b>95+</b><span>Kategori</span></div>
+    </div>
+  </div>
+  <button class="scroll-hint" onclick="document.getElementById('s1').scrollIntoView({behavior:'smooth',block:'start'})">
+    <span>Nasıl çalıştığını görmek için kaydır</span>
+    <div class="scroll-arrow">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <path d="M6 2v8M3 7l3 3 3-3" stroke="#5A6070" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </button>
+</section>
+
+<!-- S1 — NOT DEFTERİ -->
+<section class="section" id="s1">
+  <div class="section-inner">
+    <div class="section-text" id="s1text">
+      <div class="section-tag">01 — Kişisel Alan</div>
+      <h2 class="section-title">Kişisel not<br>defteri.</h2>
+      <p class="section-desc">Kendi notlarını platforma ekle, renklendir, istediğin zaman eriş. Sadece senin görebileceğin, tamamen özel bir alan.</p>
+    </div>
+    <div class="section-visual">
+      <div style="font-size:160px;line-height:1;filter:drop-shadow(0 20px 40px rgba(0,0,0,.14))" id="nbSvg">📓</div>
+    </div>
+  </div>
+  <button class="scroll-hint" onclick="document.getElementById('s2').scrollIntoView({behavior:'smooth',block:'start'})">
+    <span>Hedeflerine nasıl odaklanacağını gör</span>
+    <div class="scroll-arrow">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <path d="M6 2v8M3 7l3 3 3-3" stroke="#5A6070" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </button>
+</section>
+
+<!-- S2 — HEDEFİNE ODAKLAN -->
+<section class="section" id="s2">
+  <div class="section-inner rev">
+    <div class="section-text" id="s2text">
+      <div class="section-tag">02 — Odak</div>
+      <h2 class="section-title">Hedefine<br>odaklan.</h2>
+      <p class="section-desc">YKS'den KPSS'ye, LGS'den TUS'a kadar her sınav için özel kategoriler seni bekliyor. Hedefini belirle, rotanı çiz.</p>
+    </div>
+    <div class="section-visual">
+      <div style="font-size:160px;line-height:1;filter:drop-shadow(0 20px 40px rgba(0,0,0,.14))" id="tgSvg">🎯</div>
+    </div>
+  </div>
+  <button class="scroll-hint" onclick="document.getElementById('s3').scrollIntoView({behavior:'smooth',block:'start'})">
+    <span>Çalışma takviminle tanış</span>
+    <div class="scroll-arrow">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <path d="M6 2v8M3 7l3 3 3-3" stroke="#5A6070" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </button>
+</section>
+
+<!-- S3 — ÇALIŞMA TAKVİMİ -->
+<section class="section" id="s3">
+  <div class="section-inner">
+    <div class="section-text" id="s3text">
+      <div class="section-tag">03 — Organizasyon</div>
+      <h2 class="section-title">Çalışma<br>takvimi.</h2>
+      <p class="section-desc">Her güne özel not bırak, kaç saat çalıştığını ve ne kadar verim aldığını takip et. Gelişimini rakamlarla gör.</p>
+    </div>
+    <div class="section-visual">
+      <div style="font-size:160px;line-height:1;filter:drop-shadow(0 20px 40px rgba(0,0,0,.14))" id="calSvg">📅</div>
+    </div>
+  </div>
+  <button class="scroll-hint" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth',block:'start'})">
+    <span>Tüm özellikleri keşfet</span>
+    <div class="scroll-arrow">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <path d="M6 2v8M3 7l3 3 3-3" stroke="#5A6070" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </button>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="features-inner">
+    <div class="features-hdr" id="featHdr">
+      <h2>Her şey, tek bir yerde.</h2>
+      <p>Öğrenciler için tasarlandı. Başarı için optimize edildi.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card" id="fc1">
+        <div class="feat-icon-wrap" id="fiw1">
+          <svg id="chartSvg" viewBox="0 0 64 64" width="64" height="64" fill="none">
+            <rect width="64" height="64" rx="14" fill="#EEF4FF"/>
+            <line x1="12" y1="48" x2="52" y2="48" stroke="#C5D5F0" stroke-width="1"/>
+            <line x1="12" y1="36" x2="52" y2="36" stroke="#C5D5F0" stroke-width="1"/>
+            <line x1="12" y1="24" x2="52" y2="24" stroke="#C5D5F0" stroke-width="1"/>
+            <polyline id="chartLine" points="12,48 22,40 32,34 42,22 52,16"
+              stroke="#007AFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"
+              stroke-dasharray="80" stroke-dashoffset="80"/>
+            <circle cx="12" cy="48" r="3" fill="#007AFF" opacity="0" id="cd0"/>
+            <circle cx="22" cy="40" r="3" fill="#007AFF" opacity="0" id="cd1"/>
+            <circle cx="32" cy="34" r="3" fill="#007AFF" opacity="0" id="cd2"/>
+            <circle cx="42" cy="22" r="3" fill="#007AFF" opacity="0" id="cd3"/>
+            <circle cx="52" cy="16" r="3" fill="#007AFF" opacity="0" id="cd4"/>
+          </svg>
+        </div>
+        <h3>Gelişimini takip et.</h3>
+        <p>XP kazan, seviye atla, rozet topla. Çalışmak hiç bu kadar motive edici olmamıştı.</p>
+      </div>
+      <div class="feat-card" id="fc2">
+        <div class="feat-icon-wrap" id="fiw2">
+          <svg viewBox="0 0 96 96" width="56" height="56" fill="none" style="overflow:visible;display:block;filter:drop-shadow(0 6px 14px rgba(200,100,0,.28))">
+            <g>
+              <rect x="12" y="50" width="72" height="54" rx="14" fill="url(#bodyG)" filter="url(#bodyF)"/>
+              <rect x="68" y="50" width="16" height="54" rx="0" fill="rgba(0,0,0,.07)"/>
+              <rect x="12" y="50" width="72" height="54" rx="14" fill="url(#bodyG)"/>
+              <circle cx="48" cy="76" r="8" fill="url(#holeG)"/>
+              <rect x="44.5" y="79" width="7" height="9" rx="3.5" fill="url(#holeG)"/>
+            </g>
+            <g>
+              <path d="M30 54 L30 34 Q30 16 48 16 Q66 16 66 34 L66 54"
+                stroke="url(#shackleG)" stroke-width="11" stroke-linecap="round" fill="none" filter="url(#shackleF)"/>
+              <path d="M30 54 L30 34 Q30 16 48 16 Q66 16 66 34 L66 54"
+                stroke="rgba(255,255,255,.22)" stroke-width="4" stroke-linecap="round" fill="none"/>
+            </g>
+            <defs>
+              <linearGradient id="bodyG" x1="12" y1="50" x2="12" y2="104" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#FFD060"/>
+                <stop offset="100%" stop-color="#F07800"/>
+              </linearGradient>
+              <linearGradient id="shackleG" x1="30" y1="16" x2="66" y2="54" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#D0D0E0"/>
+                <stop offset="100%" stop-color="#8A8AAA"/>
+              </linearGradient>
+              <radialGradient id="holeG" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#5A3A80"/>
+                <stop offset="100%" stop-color="#3A2060"/>
+              </radialGradient>
+              <filter id="bodyF" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="rgba(200,100,0,.25)"/>
+              </filter>
+              <filter id="shackleF" x="-30%" y="-30%" width="160%" height="160%">
+                <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="rgba(0,0,0,.18)"/>
+              </filter>
+            </defs>
+          </svg>
+        </div>
+        <h3>Güvenle kullan.</h3>
+        <p>Topluluk denetimi ve raporlama sistemi sayesinde kaliteli içerikler ön plana çıkar.</p>
+      </div>
+      <div class="feat-card" id="fc3">
+        <div class="feat-icon-wrap" id="fiw3">
+          <span id="handsSvg" style="font-size:48px;line-height:1;display:block">🤝</span>
+        </div>
+        <h3>Toplulukla öğren.</h3>
+        <p>Çalışma grubu oluştur, arkadaşlarınla not paylaş. Birlikte daha güçlüsün.</p>
+      </div>
+    </div>
+    <button class="scroll-hint" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth',block:'start'})">
+      <span>Hemen başlamaya hazır mısın?</span>
+      <div class="scroll-arrow">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M6 2v8M3 7l3 3 3-3" stroke="#5A6070" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </button>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-card" id="ctaCard">
+    <h2>Hemen üye ol, ücretsiz.</h2>
+    <p>Kayıt saniyeler alır. Binlerce nota anında erişim kazan.</p>
+    <button class="btn-white" onclick="openLogin()">Şimdi Başla →</button>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 bilgi kaynağım</span>
+  <div style="display:flex;gap:20px">
+    <a href="#">Gizlilik</a>
+    <a href="#">Kurallar</a>
+    <a href="#">İletişim</a>
+  </div>
+</footer>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="loginOverlay" onclick="overlayClick(event)">
+  <div class="login-modal" id="loginModal">
+    <button class="modal-close" onclick="closeLogin()">✕</button>
+    <div class="modal-left">
+      <div class="ml-logo">bilgi<span>kaynağım</span></div>
+      <h2>Hoş geldin.</h2>
+      <p>Türkiye'nin en kapsamlı not paylaşım platformuna katıl.</p>
+      <ul class="ml-features">
+        <li>12.000+ not içeriği</li>
+        <li>Çalışma grupları</li>
+        <li>Kişisel not defteri</li>
+        <li>Çalışma takvimi</li>
+        <li>Tamamen ücretsiz</li>
+      </ul>
+    </div>
+    <div class="modal-right">
+      <h3>Giriş Yap</h3>
+      <p class="mr-sub">Bir hesap ile devam edin.</p>
+      <button class="login-btn" onclick="loginGoogle()">
+        <svg viewBox="0 0 24 24" width="20" height="20">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        Google ile devam et
+      </button>
+      <button class="login-btn" onclick="loginApple()" style="background:#000;color:#fff;border-color:#000">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="white">
+          <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.4c1.37.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.39-1.32 2.76-2.53 3.99zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+        </svg>
+        Apple ile devam et
+      </button>
+      <div class="login-divider">veya e-posta ile</div>
+      <input class="login-email" id="loginEmailInp" type="email" placeholder="E-posta adresiniz"/>
+      <input class="login-email" id="loginPassInp" type="password" placeholder="Şifreniz"/>
+      <button class="login-submit" onclick="loginEmail()">Giriş Yap</button>
+      <p style="text-align:center;font-size:13px;color:var(--txt2);margin-top:16px">Bir hesabınız yok mu? <a href="#" onclick="loginRegister();return false;" style="color:var(--acc);font-weight:600;text-decoration:none">Kayıt ol</a></p>
+      <p class="mr-footer" style="margin-top:16px">📱 Yakında iOS ve Android uygulamasında da kullanılabilecek.<br><br>
+        Devam ederek <a href="#">Gizlilik Politikası</a>'nı kabul etmiş olursunuz.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══ LOGIN MODAL ══
+function openLogin(){
+  document.getElementById('loginOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLogin(){
+  document.getElementById('loginOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function overlayClick(e){if(e.target===document.getElementById('loginOverlay'))closeLogin()}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLogin()});
+function loginGoogle(){alert('Google girişi yakında aktif olacak!');}
+function loginApple(){alert('Apple girişi yakında aktif olacak!');}
+function loginEmail(){
+  const em=document.getElementById('loginEmailInp').value;
+  const pw=document.getElementById('loginPassInp').value;
+  if(!em||!pw){alert('E-posta ve şifre zorunludur.');return;}
+  alert('Giriş sistemi yakında aktif olacak!');
+}
+function loginRegister(){
+  alert('Kayıt sistemi yakında aktif olacak!');
+}
+
+// ══ GSAP ══
+gsap.registerPlugin(ScrollTrigger);
+document.body.style.overflow='';
+document.documentElement.style.overflow='';
+
+function addWillChange(el){el.style.willChange='transform, opacity'}
+function removeWillChange(el){el.style.willChange='auto'}
+
+function setupFloat(id,sectionId,yAmt,rot,dur){
+  const el=document.getElementById(id);
+  if(!el) return;
+  let floatTween=null,active=false;
+  gsap.set(el,{opacity:0,y:30,scale:.8});
+  ScrollTrigger.create({
+    trigger:'#'+sectionId,start:'top 70%',
+    onEnter:()=>{
+      if(active) return; active=true;
+      addWillChange(el);
+      gsap.to(el,{opacity:1,y:0,scale:1,duration:.6,ease:'back.out(1.4)',
+        onComplete:()=>{
+          floatTween=gsap.to(el,{y:-yAmt,rotation:rot,duration:dur,ease:'sine.inOut',yoyo:true,repeat:-1});
+        }
+      });
+    },
+    onLeaveBack:()=>{
+      active=false;
+      if(floatTween){floatTween.kill();floatTween=null;}
+      removeWillChange(el);
+      gsap.set(el,{opacity:0,y:30,scale:.8,rotation:0});
+    }
+  });
+}
+setupFloat('nbSvg', 's1',14, 2,  2.8);
+setupFloat('tgSvg', 's2',12,-2,  3.0);
+setupFloat('calSvg','s3',12, 1.5,2.6);
+
+['s1text','s2text','s3text'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(!el) return;
+  gsap.from(el.children,{
+    scrollTrigger:{trigger:'#'+id,start:'top 75%',toggleActions:'play reverse play reverse'},
+    opacity:0,y:24,stagger:.1,duration:.6,ease:'power3.out'
+  });
+});
+
+['fc1','fc2','fc3'].forEach((id,i)=>{
+  const el=document.getElementById(id);
+  if(!el) return;
+  gsap.to(el,{
+    scrollTrigger:{trigger:'#features',start:'top 72%',toggleActions:'play reverse play reverse'},
+    opacity:1,y:0,duration:.6,delay:i*.12,ease:'power3.out'
+  });
+});
+
+const fiw2=document.getElementById('fiw2');
+const fiw3=document.getElementById('fiw3');
+if(fiw2) gsap.set(fiw2,{y:-24,opacity:0});
+if(fiw3) gsap.set(fiw3,{y:-24,opacity:0});
+
+let featDone=false;
+ScrollTrigger.create({
+  trigger:'#features',start:'top 60%',
+  onEnter:()=>{
+    if(featDone) return; featDone=true;
+    const line=document.getElementById('chartLine');
+    if(line){
+      gsap.to(line,{strokeDashoffset:0,duration:.9,ease:'power2.out',delay:.2,
+        onComplete:()=>{
+          ['cd0','cd1','cd2','cd3','cd4'].forEach((dotId,i)=>{
+            const dot=document.getElementById(dotId);
+            if(dot) gsap.to(dot,{opacity:1,duration:.15,delay:i*.07});
+          });
+        }
+      });
+    }
+    const lw=document.getElementById('fiw2');
+    if(lw){gsap.set(lw,{y:-24,opacity:0});gsap.to(lw,{y:0,opacity:1,duration:.4,delay:.4,ease:'power3.out'});}
+    const hw=document.getElementById('fiw3');
+    if(hw){gsap.set(hw,{y:-24,opacity:0});gsap.to(hw,{y:0,opacity:1,duration:.4,delay:.6,ease:'power3.out'});}
+  },
+  onLeaveBack:()=>{
+    featDone=false;
+    const line=document.getElementById('chartLine');
+    if(line) gsap.set(line,{strokeDashoffset:80});
+    ['cd0','cd1','cd2','cd3','cd4'].forEach(dotId=>{
+      const dot=document.getElementById(dotId);
+      if(dot) gsap.set(dot,{opacity:0});
+    });
+    const lw=document.getElementById('fiw2');
+    const hw=document.getElementById('fiw3');
+    if(lw) gsap.set(lw,{y:-24,opacity:0});
+    if(hw) gsap.set(hw,{y:-24,opacity:0});
+  }
+});
+
+gsap.to('#ctaCard',{
+  scrollTrigger:{trigger:'#cta',start:'top 80%',toggleActions:'play reverse play reverse'},
+  opacity:1,y:0,duration:.8,ease:'power3.out'
+});
+gsap.from('#featHdr',{
+  scrollTrigger:{trigger:'#features',start:'top 82%',toggleActions:'play reverse play reverse'},
+  opacity:0,y:20,duration:.6,ease:'power3.out'
+});
+
+ScrollTrigger.create({
+  start:80,
+  onUpdate:(self)=>{
+    document.getElementById('mainNav').style.boxShadow=
+      self.progress>0?'0 2px 20px rgba(0,0,0,.08)':'none';
+  }
+});
+
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  const emojis=['📓','🎯','📅','✏️','🖊️','📐','📏','🗂️','📎','🔖','💡','🧠','📖','🎒','🖍️'];
+  const canvas=document.getElementById('particleCanvas');
+  const COUNT=18;
+  let idx=0;
+  function left(){
+    const w=100/COUNT,s=idx%COUNT;idx++;
+    return(s+.5)*w+(Math.random()-.5)*w*.8;
+  }
+  function spawn(){
+    const el=document.createElement('span');
+    el.className='particle';
+    el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    const dur=18+Math.random()*22;
+    el.style.cssText=`font-size:${16+Math.random()*14}px;left:${left()}%;bottom:-60px;animation-duration:${dur}s;animation-delay:-${Math.random()*dur}s;`;
+    canvas.appendChild(el);
+    setTimeout(()=>{el.remove();spawn();},(dur+2)*1000);
+  }
+  for(let i=0;i<COUNT;i++) spawn();
+})();
+</script>
+</body>
+</html>
