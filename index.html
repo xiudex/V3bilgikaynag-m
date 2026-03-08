@@ -24,7 +24,6 @@
   --fh:'Bricolage Grotesque',sans-serif;--fb:'Inter',sans-serif;
   --ease:cubic-bezier(.22,1,.36,1);--ease2:cubic-bezier(.16,1,.3,1);
 }
-/* DARK TEMA */
 body.dark{
   --bg:#0F1117;--bg2:#1A1D26;--txt:#E8EAF0;--txt2:#8A90A0;
   --acc:#3D9EFF;--acc2:#1A7FE0;--acc-l:rgba(61,158,255,.12);
@@ -277,20 +276,16 @@ footer a:hover{color:var(--acc)}
   <div class="nav-right">
     <button class="nav-icon-btn" id="particleBtn" onclick="toggleParticles()" title="İkonları göster/gizle">
       <svg id="particleIcon" width="18" height="18" viewBox="0 0 18 18" fill="none" style="transition:all .3s">
-        <!-- Göz -->
         <path class="eye-shape" d="M1 9C1 9 4 4 9 4C14 4 17 9 17 9C17 9 14 14 9 14C4 14 1 9 1 9Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
         <circle class="eye-pupil" cx="9" cy="9" r="2.5" fill="currentColor"/>
-        <!-- Çizgi (gizli modda görünür) -->
         <line class="eye-slash" x1="2" y1="16" x2="16" y2="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="opacity:0;transition:opacity .25s"/>
       </svg>
     </button>
     <button class="nav-icon-btn" id="themeBtn" onclick="toggleTheme()" title="Tema değiştir" style="overflow:hidden;position:relative">
-      <!-- Ay (dark modda gizli) -->
       <svg id="iconMoon" width="16" height="16" viewBox="0 0 16 16" fill="none"
         style="position:absolute;transition:transform .5s cubic-bezier(.34,1.56,.64,1),opacity .4s;transform:scale(1) rotate(0deg);opacity:1">
         <path d="M13.5 10.5A6 6 0 0 1 5.5 2.5a6 6 0 1 0 8 8z" fill="currentColor"/>
       </svg>
-      <!-- Güneş (light modda gizli) -->
       <svg id="iconSun" width="16" height="16" viewBox="0 0 16 16" fill="none"
         style="position:absolute;transition:transform .5s cubic-bezier(.34,1.56,.64,1),opacity .4s;transform:scale(0) rotate(-90deg);opacity:0">
         <circle cx="8" cy="8" r="3" fill="currentColor"/>
@@ -305,7 +300,6 @@ footer a:hover{color:var(--acc)}
           <line x1="4.34" y1="11.66" x2="2.93" y2="13.07"/>
         </g>
       </svg>
-      <!-- Boşluk tutucu -->
       <span style="width:16px;height:16px;display:block;visibility:hidden"></span>
     </button>
     <button class="nav-btn" onclick="openLogin(this)">Giriş Yap</button>
@@ -339,7 +333,7 @@ footer a:hover{color:var(--acc)}
   </button>
 </section>
 
-<!-- S1 — NOT DEFTERİ -->
+<!-- S1 -->
 <section class="section" id="s1">
   <div class="section-inner">
     <div class="section-text" id="s1text">
@@ -361,7 +355,7 @@ footer a:hover{color:var(--acc)}
   </button>
 </section>
 
-<!-- S2 — HEDEFİNE ODAKLAN -->
+<!-- S2 -->
 <section class="section" id="s2">
   <div class="section-inner rev">
     <div class="section-text" id="s2text">
@@ -383,7 +377,7 @@ footer a:hover{color:var(--acc)}
   </button>
 </section>
 
-<!-- S3 — ÇALIŞMA TAKVİMİ -->
+<!-- S3 -->
 <section class="section" id="s3">
   <div class="section-inner">
     <div class="section-text" id="s3text">
@@ -413,7 +407,6 @@ footer a:hover{color:var(--acc)}
       <p>Öğrenciler için tasarlandı. Başarı için optimize edildi.</p>
     </div>
     <div class="feat-grid">
-      <!-- Kart 1: Grafik -->
       <div class="feat-card" id="fc1">
         <div class="feat-icon-wrap" id="fiw1">
           <svg id="chartSvg" viewBox="0 0 64 64" width="64" height="64" fill="none">
@@ -434,7 +427,6 @@ footer a:hover{color:var(--acc)}
         <h3>Gelişimini takip et.</h3>
         <p>XP kazan, seviye atla, rozet topla. Çalışmak hiç bu kadar motive edici olmamıştı.</p>
       </div>
-      <!-- Kart 2: Kilit -->
       <div class="feat-card" id="fc2">
         <div class="feat-icon-wrap" id="fiw2">
           <svg viewBox="0 0 96 96" width="56" height="56" fill="none" style="overflow:visible;display:block;filter:drop-shadow(0 6px 14px rgba(200,100,0,.28))">
@@ -476,7 +468,6 @@ footer a:hover{color:var(--acc)}
         <h3>Güvenle kullan.</h3>
         <p>Topluluk denetimi ve raporlama sistemi sayesinde kaliteli içerikler ön plana çıkar.</p>
       </div>
-      <!-- Kart 3: El Sıkışma -->
       <div class="feat-card" id="fc3">
         <div class="feat-icon-wrap" id="fiw3">
           <span id="handsSvg" style="font-size:48px;line-height:1;display:block">🤝</span>
@@ -561,7 +552,6 @@ footer a:hover{color:var(--acc)}
 
 <script>
 // ══ FPS TESPİT & SÜRE ÇARPANI ══
-// Gerçek ekran kare hızını ölç, 120fps ekranlarda animasyonları uzat
 let _dur = 1.0;
 let _lowPerf = false;
 (function detectFPS(){
@@ -574,17 +564,14 @@ let _lowPerf = false;
     if(++count < 12){ requestAnimationFrame(tick); return; }
     const avg = samples.reduce((a,b)=>a+b,0) / samples.length;
     const fps = 1000 / avg;
-    if     (fps < 30)  { _lowPerf = true; _dur = 0.6; } // eski telefon — animasyonları kıs
-    else if(fps < 50)  { _dur = 0.85; }                  // orta seviye
-    else if(fps > 120) { _dur = 1.30; }                  // 144Hz ve üstü (165/240/540 dahil)
-    else if(fps > 100) { _dur = 1.20; }                  // 120Hz
-    else if(fps > 80)  { _dur = 1.08; }                  // 90Hz
-    // 60fps: _dur = 1.0
+    if     (fps < 30)  { _lowPerf = true; _dur = 0.6; }
+    else if(fps < 50)  { _dur = 0.85; }
+    else if(fps > 120) { _dur = 1.30; }
+    else if(fps > 100) { _dur = 1.20; }
+    else if(fps > 80)  { _dur = 1.08; }
 
-    // Düşük performanslı cihazda GSAP scroll animasyonlarını devre dışı bırak
     if(_lowPerf && typeof gsap !== 'undefined'){
       gsap.globalTimeline.pause();
-      // Tüm animasyon hedeflerini hemen son haline getir
       ['fc1','fc2','fc3'].forEach(id=>{
         const el=document.getElementById(id);
         if(el){el.style.opacity='1';el.style.transform='none';}
@@ -595,36 +582,26 @@ let _lowPerf = false;
   requestAnimationFrame(tick);
 })();
 function D(s){ return (s * _dur).toFixed(3) + 's'; }
+
 // ══ LOGIN MODAL ══
 let _originEl = null;
-
 function openLogin(triggerEl){
   const overlay = document.getElementById('loginOverlay');
   const modal   = document.getElementById('loginModal');
   _originEl = triggerEl || null;
-
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  const mx = vw / 2;
-  const my = vh / 2;
-
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const mx = vw/2, my = vh/2;
   let bx = mx, by = my;
   if(_originEl){
     const r = _originEl.getBoundingClientRect();
-    bx = r.left + r.width  / 2;
-    by = r.top  + r.height / 2;
+    bx = r.left + r.width/2;
+    by = r.top  + r.height/2;
   }
-
-  // Butondan modal merkezine olan offset — çok küçük scale olduğu için
-  // sadece hafif bir translate yeterli (tam buton merkezine gitmeye gerek yok)
   const dx = (bx - mx) * 0.18;
   const dy = (by - my) * 0.18;
-
-  // Başlangıç: buton tarafında, küçük, saydam
   modal.style.transition = 'none';
   modal.style.transform  = `translate(${dx}px, ${dy}px) scale(0.82)`;
   modal.style.opacity    = '0';
-
   requestAnimationFrame(()=>{
     requestAnimationFrame(()=>{
       modal.style.transition = `transform ${D(.38)} cubic-bezier(.22,1,.36,1), opacity ${D(.28)} ease`;
@@ -633,37 +610,27 @@ function openLogin(triggerEl){
       overlay.classList.add('open');
     });
   });
-
   document.body.style.overflow = 'hidden';
 }
-
 function closeLogin(){
   const overlay = document.getElementById('loginOverlay');
   const modal   = document.getElementById('loginModal');
-
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  const mx = vw / 2;
-  const my = vh / 2;
-
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const mx = vw/2, my = vh/2;
   let bx = mx, by = my;
   if(_originEl){
     const r = _originEl.getBoundingClientRect();
-    bx = r.left + r.width  / 2;
-    by = r.top  + r.height / 2;
+    bx = r.left + r.width/2;
+    by = r.top  + r.height/2;
   }
-
   const dx = (bx - mx) * 0.18;
   const dy = (by - my) * 0.18;
-
   modal.style.transition = `transform ${D(.28)} cubic-bezier(.4,0,.8,.6), opacity ${D(.22)} ease`;
   modal.style.transform  = `translate(${dx}px, ${dy}px) scale(0.82)`;
   modal.style.opacity    = '0';
-
   overlay.classList.remove('open');
   document.body.style.overflow = '';
 }
-
 function overlayClick(e){if(e.target===document.getElementById('loginOverlay'))closeLogin()}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLogin()});
 function loginGoogle(){alert('Google girişi yakında aktif olacak!');}
@@ -674,20 +641,47 @@ function loginEmail(){
   if(!em||!pw){alert('E-posta ve şifre zorunludur.');return;}
   alert('Giriş sistemi yakında aktif olacak!');
 }
-function loginRegister(){
-  alert('Kayıt sistemi yakında aktif olacak!');
-}
+function loginRegister(){ alert('Kayıt sistemi yakında aktif olacak!'); }
 
 // ══ GSAP ══
 gsap.registerPlugin(ScrollTrigger);
 document.body.style.overflow='';
 document.documentElement.style.overflow='';
 
-// GSAP süre yardımcısı — FPS'e göre normalize
 function gd(s){ return s * _dur; }
-
 function addWillChange(el){el.style.willChange='transform, opacity'}
 function removeWillChange(el){el.style.willChange='auto'}
+
+// ── S1/S2/S3 metin animasyonları ──
+// Köklü fix: gsap.set ile başlangıç state'ini DOM'a garanti yaz,
+// sonra ScrollTrigger onEnter/onLeaveBack ile manuel kontrol et.
+// toggleActions ile fromTo kullanmak bazen GSAP'ın skip etmesine yol açıyordu.
+['s1','s2','s3'].forEach(function(sid){
+  var textEl = document.getElementById(sid + 'text');
+  if(!textEl) return;
+  var children = Array.from(textEl.querySelectorAll('.section-tag, .section-title, .section-desc'));
+  if(!children.length) return;
+
+  // Başlangıç: gizli
+  gsap.set(children, {opacity:0, y:28});
+
+  ScrollTrigger.create({
+    trigger: '#' + sid,
+    start: 'top 78%',
+    onEnter: function(){
+      gsap.to(children, {
+        opacity:1, y:0,
+        duration: gd(.75),
+        stagger: gd(.12),
+        ease: 'power3.out',
+        overwrite: 'auto'
+      });
+    },
+    onLeaveBack: function(){
+      gsap.set(children, {opacity:0, y:28});
+    }
+  });
+});
 
 // ── Emoji float animasyonu ──
 function setupFloat(id,sectionId,yAmt,rot,dur){
@@ -718,65 +712,73 @@ setupFloat('nbSvg', 's1',14, 2,  2.8);
 setupFloat('tgSvg', 's2',12,-2,  3.0);
 setupFloat('calSvg','s3',12, 1.5,2.6);
 
-// ── Metin animasyonları ──
-['s1text','s2text','s3text'].forEach(id=>{
-  const el=document.getElementById(id);
-  if(!el) return;
-  gsap.from(el.children,{
-    scrollTrigger:{trigger:'#'+id,start:'top 75%',toggleActions:'play reverse play reverse'},
-    opacity:0,y:24,stagger:gd(.12),duration:gd(.75),ease:'power3.out'
-  });
-});
+// ── Features kartları — köklü fix ──
+// Sorun: CSS'teki opacity:0 + GSAP async FPS detection çakışması.
+//        Kart tweenleri overwrite olmadan birikip fc1'i skip ediyordu.
+// Çözüm: gsap.set ile CSS'i bypass et, overwrite:'auto' ekle,
+//         tek ScrollTrigger, onEnter/onLeaveBack manuel kontrol.
 
-// ── Features kartları ──
-['fc1','fc2','fc3'].forEach((id,i)=>{
-  const el=document.getElementById(id);
-  if(!el) return;
-  gsap.to(el,{
-    scrollTrigger:{trigger:'#features',start:'top 72%',toggleActions:'play reverse play reverse'},
-    opacity:1,y:0,duration:gd(.7),delay:i*gd(.13),ease:'power3.out'
-  });
-});
+// Kartları ve ikonları başlangıçta CSS'e yazılmış opacity:0'ı override ederek set et
+gsap.set(['#fc1','#fc2','#fc3'], {opacity:0, y:32, clearProps:'none'});
+gsap.set(['#fiw1','#fiw2','#fiw3'], {y:-24, opacity:0});
 
-// ── Features icon animasyonları ──
-const fiw2=document.getElementById('fiw2');
-const fiw3=document.getElementById('fiw3');
-if(fiw2) gsap.set(fiw2,{y:-24,opacity:0});
-if(fiw3) gsap.set(fiw3,{y:-24,opacity:0});
-
-let featDone=false;
+var featDone = false;
 ScrollTrigger.create({
-  trigger:'#features',start:'top 60%',
-  onEnter:()=>{
-    if(featDone) return; featDone=true;
-    const line=document.getElementById('chartLine');
+  trigger: '#features',
+  start: 'top 75%',
+  onEnter: function(){
+    if(featDone) return;
+    featDone = true;
+
+    // 3 kartı sırayla göster — overwrite ile çakışma engelle
+    ['fc1','fc2','fc3'].forEach(function(id, i){
+      var el = document.getElementById(id);
+      if(!el) return;
+      gsap.to(el, {
+        opacity:1, y:0,
+        duration: gd(.7),
+        delay: i * gd(.15),
+        ease: 'power3.out',
+        overwrite: 'auto'
+      });
+    });
+
+    // fiw1 (grafik ikonu)
+    gsap.to('#fiw1', {y:0, opacity:1, duration:gd(.4), delay:gd(.15), ease:'power3.out', overwrite:'auto'});
+
+    // Grafik çizgisi animasyonu
+    var line = document.getElementById('chartLine');
     if(line){
-      gsap.to(line,{strokeDashoffset:0,duration:gd(.9),ease:'power2.out',delay:gd(.2),
-        onComplete:()=>{
-          ['cd0','cd1','cd2','cd3','cd4'].forEach((dotId,i)=>{
-            const dot=document.getElementById(dotId);
-            if(dot) gsap.to(dot,{opacity:1,duration:gd(.15),delay:i*gd(.07)});
+      gsap.to(line, {
+        strokeDashoffset:0,
+        duration: gd(.9),
+        ease: 'power2.out',
+        delay: gd(.3),
+        overwrite: 'auto',
+        onComplete: function(){
+          ['cd0','cd1','cd2','cd3','cd4'].forEach(function(dotId, i){
+            var dot = document.getElementById(dotId);
+            if(dot) gsap.to(dot, {opacity:1, duration:gd(.15), delay:i*gd(.07)});
           });
         }
       });
     }
-    const lw=document.getElementById('fiw2');
-    if(lw){gsap.set(lw,{y:-24,opacity:0});gsap.to(lw,{y:0,opacity:1,duration:gd(.4),delay:gd(.4),ease:'power3.out'});}
-    const hw=document.getElementById('fiw3');
-    if(hw){gsap.set(hw,{y:-24,opacity:0});gsap.to(hw,{y:0,opacity:1,duration:gd(.4),delay:gd(.6),ease:'power3.out'});}
+
+    // fiw2 (kilit ikonu)
+    gsap.to('#fiw2', {y:0, opacity:1, duration:gd(.4), delay:gd(.35), ease:'power3.out', overwrite:'auto'});
+    // fiw3 (el sıkışma)
+    gsap.to('#fiw3', {y:0, opacity:1, duration:gd(.4), delay:gd(.55), ease:'power3.out', overwrite:'auto'});
   },
-  onLeaveBack:()=>{
-    featDone=false;
-    const line=document.getElementById('chartLine');
-    if(line) gsap.set(line,{strokeDashoffset:80});
-    ['cd0','cd1','cd2','cd3','cd4'].forEach(dotId=>{
-      const dot=document.getElementById(dotId);
-      if(dot) gsap.set(dot,{opacity:0});
+  onLeaveBack: function(){
+    featDone = false;
+    gsap.set(['#fc1','#fc2','#fc3'], {opacity:0, y:32});
+    gsap.set(['#fiw1','#fiw2','#fiw3'], {y:-24, opacity:0});
+    var line = document.getElementById('chartLine');
+    if(line) gsap.set(line, {strokeDashoffset:80});
+    ['cd0','cd1','cd2','cd3','cd4'].forEach(function(dotId){
+      var dot = document.getElementById(dotId);
+      if(dot) gsap.set(dot, {opacity:0});
     });
-    const lw=document.getElementById('fiw2');
-    const hw=document.getElementById('fiw3');
-    if(lw) gsap.set(lw,{y:-24,opacity:0});
-    if(hw) gsap.set(hw,{y:-24,opacity:0});
   }
 });
 
@@ -806,16 +808,13 @@ function toggleTheme(){
   const moon = document.getElementById('iconMoon');
   const sun  = document.getElementById('iconSun');
   if(isDark){
-    // Aya geçiş: güneş kaybolur, ay belirir
     moon.style.transform='scale(0) rotate(90deg)'; moon.style.opacity='0';
     sun.style.transform='scale(1) rotate(0deg)';   sun.style.opacity='1';
   } else {
-    // Güneşe geçiş: ay kaybolur, güneş belirir
     moon.style.transform='scale(1) rotate(0deg)';  moon.style.opacity='1';
     sun.style.transform='scale(0) rotate(-90deg)'; sun.style.opacity='0';
   }
 }
-// Sayfa yüklenince dark tema varsa uygula
 (function(){
   if(localStorage.getItem('bk-theme')==='dark'){
     document.body.classList.add('dark');
@@ -824,9 +823,7 @@ function toggleTheme(){
     moon.style.transition='none'; sun.style.transition='none';
     moon.style.transform='scale(0) rotate(90deg)'; moon.style.opacity='0';
     sun.style.transform='scale(1) rotate(0deg)';   sun.style.opacity='1';
-    setTimeout(()=>{
-      moon.style.transition=''; sun.style.transition='';
-    },50);
+    setTimeout(()=>{ moon.style.transition=''; sun.style.transition=''; },50);
   }
 })();
 
@@ -837,22 +834,17 @@ function toggleParticles(){
   particlesVisible = !particlesVisible;
   canvas.style.opacity = particlesVisible ? '1' : '0';
   canvas.style.pointerEvents = 'none';
-  // Göz çizgisi
   const slash = document.querySelector('.eye-slash');
   if(slash) slash.style.opacity = particlesVisible ? '0' : '1';
-  // Göz bebeği solma
   const pupil = document.querySelector('.eye-pupil');
   if(pupil) pupil.style.opacity = particlesVisible ? '1' : '0.3';
 }
 
-// ── Floating Particles — sadece masaüstü ──
+// ── Floating Particles ──
 (function(){
-  // Mobil/dokunmatik cihazlarda çalıştırma
   if(window.matchMedia('(pointer:coarse)').matches) return;
   if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
-  // Küçük ekranlarda da kapalı (tablet sınırı: 1024px)
   if(window.innerWidth < 1024) return;
-
   const emojis=['📓','🎯','📅','✏️','🖊️','📐','📏','🗂️','📎','🔖','💡','🧠','📖','🎒','🖍️'];
   const canvas=document.getElementById('particleCanvas');
   const COUNT=18;
@@ -868,18 +860,13 @@ function toggleParticles(){
     const size=18+Math.random()*14;
     const dur=22+Math.random()*18;
     const delay=Math.random()*dur;
-    // top:100vh'den başla — translateY(-110vh) ile ekranın üstüne çık
-    // böylece hiç "sıfırlanma" olmaz, kesintisiz süzülür
     el.style.cssText=`font-size:${size}px;left:${left()}%;top:100vh;animation-duration:${dur}s;animation-delay:-${delay}s;`;
     canvas.appendChild(el);
     setTimeout(()=>{el.remove();spawn();},(dur+2)*1000);
   }
   for(let i=0;i<COUNT;i++) spawn();
-
-  // 1.5s sonra başla, 1.8s'de yavaşça belir
   setTimeout(()=>{ canvas.style.opacity='1'; }, 1500);
 })();
 </script>
 </body>
 </html>
-
