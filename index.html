@@ -125,6 +125,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;height:64px;
   min-height:100vh;min-height:100dvh;
   display:grid;grid-template-rows:1fr auto;
   position:relative;overflow:hidden;
+  contain:layout style;
 }
 .page-section:nth-of-type(odd){background:var(--bg)}
 .page-section:nth-of-type(even){background:var(--white)}
@@ -153,8 +154,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;height:64px;
   overflow:hidden;
   box-shadow:0 8px 32px rgba(0,0,0,0.08),inset 0 1px 0 rgba(255,255,255,0.7);
   transform-style:preserve-3d;
-  will-change:transform;
 }
+.cat-card:hover{will-change:transform;}
 body.dark .cat-card{
   background:rgba(28,31,46,0.5);
   border-color:rgba(255,255,255,0.12);
@@ -200,13 +201,13 @@ body.dark .cat-card{
   cursor:default;
   position:relative;overflow:hidden;
   transform-style:preserve-3d;
-  will-change:transform;
 }
 body.dark .s1-card{
   background:rgba(28,31,46,0.5);
   border-color:rgba(255,255,255,0.12);
   box-shadow:0 8px 32px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.07);
 }
+.s1-card:hover{will-change:transform;}
 .s1-card p{font-size:15px;line-height:1.6;color:var(--txt);margin:0;font-weight:500;}
 
 .s1-handwrite{font-family:'Caveat',cursive;font-weight:700;color:var(--txt);line-height:1.15;}
@@ -244,13 +245,13 @@ body.dark .s1-card{
   cursor:default;
   position:relative;overflow:hidden;
   transform-style:preserve-3d;
-  will-change:transform;
 }
 body.dark .s2-card{
   background:rgba(28,31,46,0.5);
   border-color:rgba(255,255,255,0.12);
   box-shadow:0 8px 32px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.07);
 }
+.s2-card:hover{will-change:transform;}
 .s2-card p{font-size:15px;line-height:1.6;color:var(--txt);margin:0;font-weight:500;}
 
 .s2-handwrite{font-family:'Caveat',cursive;font-weight:700;color:var(--txt);line-height:1.05;}
@@ -442,79 +443,46 @@ body.dark .mind-col-right .mm-node{background:transparent;}
 
 /* ══ CTA ══ */
 #cta{background:var(--bg)}
-.cta-inner{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100dvh - 64px);padding:20px 0;}
-.cta-hdr{text-align:center;margin-bottom:28px}
-.cta-hdr h2{font-family:var(--fh);font-size:clamp(28px,3.5vw,44px);font-weight:800;
-  letter-spacing:-1.5px;color:var(--txt);margin-bottom:10px}
-.cta-hdr p{font-size:15px;color:var(--txt2)}
-.cta-card{
-  width:100%;max-width:820px;
-  border:none;border-radius:var(--r3);
-  padding:60px 80px;text-align:center;
-  opacity:0;
-  background:var(--bg2);
-  box-shadow:0 2px 24px rgba(0,0,0,0.08);
-  transition:box-shadow 0.4s ease;
+.cta-scatter-area{
   position:relative;
-  overflow:visible;
+  width:100%;
+  flex:1;
+  min-height:calc(100dvh - 64px);
+  overflow:hidden;
 }
-.cta-card:hover{
-  box-shadow:0 8px 40px rgba(0,0,0,0.13);
+.cta-item{
+  position:absolute;
+  user-select:none;
+  white-space:nowrap;
+  cursor:default;
 }
-.cta-card h2{font-family:var(--fh);font-size:clamp(28px,3.5vw,44px);font-weight:800;
-  color:var(--txt);letter-spacing:-1.5px;margin-bottom:12px}
-.cta-card p{font-size:16px;color:var(--txt2);margin-bottom:36px}
-.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
-.btn-cta{padding:16px 44px;border-radius:50px;border:none;
-  background:var(--acc);color:#fff;font-family:var(--fb);font-size:15px;font-weight:700;cursor:grab;
+.cta-item.is-text{
+  font-family:var(--fh);
+  font-weight:800;
+  letter-spacing:-1px;
+  color:var(--txt);
+  line-height:1.1;
+}
+.cta-item.is-sub{
+  font-family:var(--fb);
+  font-size:clamp(13px,1.2vw,16px);
+  font-weight:500;
+  color:var(--txt2);
+}
+.cta-item.is-caveat{
+  font-family:'Caveat',cursive;
+  font-weight:700;
+  color:var(--txt);
+}
+.btn-cta{
+  padding:16px 44px;border-radius:50px;border:none;
+  background:var(--acc);color:#fff;font-family:var(--fb);font-size:15px;font-weight:700;cursor:pointer;
   transition:transform .15s var(--ease2),box-shadow .2s;
-  box-shadow:0 4px 20px rgba(0,122,255,.35)}
+  box-shadow:0 4px 20px rgba(0,122,255,.35);
+  white-space:nowrap;
+}
 .btn-cta:hover{transform:scale(1.05);box-shadow:0 8px 32px rgba(0,122,255,.45)}
 .btn-cta:active{transform:scale(.97)}
-.btn-cta-login{padding:16px 44px;border-radius:50px;border:2px solid var(--border);
-  background:transparent;color:var(--txt);font-family:var(--fb);font-size:15px;font-weight:700;cursor:grab;
-  transition:transform .15s var(--ease2),background .2s,border-color .2s;}
-.btn-cta-login:hover{background:var(--bg2);transform:scale(1.05);}
-.btn-cta-login:active{transform:scale(.97)}
-
-/* ══ CTA DRAG ROW ══ */
-.cta-drag-row{
-  width:100%;max-width:820px;
-  margin-top:24px;
-  padding:24px 0;
-  display:flex;align-items:center;justify-content:center;
-  position:relative;
-  min-height:80px;
-}
-.cta-drag-words{
-  display:flex;gap:14px;flex-wrap:nowrap;align-items:center;
-  font-family:'Caveat',cursive;font-size:clamp(28px,3.5vw,48px);font-weight:700;color:var(--txt);
-  justify-content:center;
-}
-.cta-drag-word{
-  cursor:grab;user-select:none;white-space:nowrap;
-  display:inline-block;
-  transition:color .2s;
-}
-.cta-drag-word:active{cursor:grabbing;color:var(--acc);}
-@keyframes ctaBorderOpen{
-  0%{clip-path:inset(0 100% 0 0 round 38px);}
-  100%{clip-path:inset(0 0% 0 0 round 38px);}
-}
-@keyframes ctaBorderClose{
-  0%{clip-path:inset(0 0% 0 0 round 38px);}
-  100%{clip-path:inset(0 100% 0 0 round 38px);}
-}
-.cta-card::after{
-  content:'';
-  position:absolute;inset:-14px;
-  border-radius:calc(var(--r3) + 6px);
-  border:3px solid #0066FF;
-  pointer-events:none;
-  clip-path:inset(0 100% 0 0 round 38px);
-}
-.cta-card.border-open::after{animation:ctaBorderOpen 0.6s cubic-bezier(.22,1,.36,1) forwards;}
-.cta-card.border-close::after{animation:ctaBorderClose 0.5s cubic-bezier(.55,0,1,.45) forwards;}
 
 footer{padding:32px 5vw;border-top:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;
@@ -888,30 +856,7 @@ footer a:hover{color:var(--acc)}
 </section>
 
 <section class="page-section" id="cta">
-  <div class="sec-body" style="display:flex;align-items:center;justify-content:center;padding:60px 5vw;">
-    <div class="cta-inner">
-      <div class="cta-hdr">
-        <h2><span class="cta-draggable">Her</span> <span class="cta-draggable">şey,</span> <span class="cta-draggable">tek</span> <span class="cta-draggable">bir</span> <span class="cta-draggable">yerde.</span></h2>
-        <p><span class="cta-draggable">Öğrenciler</span> <span class="cta-draggable">için</span> <span class="cta-draggable">tasarlandı.</span> <span class="cta-draggable">Başarı</span> <span class="cta-draggable">için</span> <span class="cta-draggable">optimize</span> <span class="cta-draggable">edildi.</span></p>
-      </div>
-      <div class="cta-card" id="ctaCard">
-        <h2><span class="cta-draggable">Hemen</span> <span class="cta-draggable">üye</span> <span class="cta-draggable">ol</span></h2>
-        <p><span class="cta-draggable">Kayıt</span> <span class="cta-draggable">saniyeler</span> <span class="cta-draggable">alır.</span> <span class="cta-draggable">Başarıya</span> <span class="cta-draggable">bir</span> <span class="cta-draggable">adım</span> <span class="cta-draggable">at.</span></p>
-        <div class="cta-btns">
-          <button class="btn-cta cta-draggable" onclick="openLogin(this)">Şimdi Başla →</button>
-          <button class="btn-cta-login cta-draggable" onclick="openLogin(this)">Giriş Yap</button>
-        </div>
-      </div>
-      <div class="cta-drag-row" id="ctaDragRow">
-        <div class="cta-drag-words">
-          <span class="cta-drag-word cta-draggable">Kontrol</span>
-          <span class="cta-drag-word cta-draggable">senin</span>
-          <span class="cta-drag-word cta-draggable">elinde,</span>
-          <span class="cta-drag-word cta-draggable">gerçekten.</span>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="cta-scatter-area" id="ctaScatter"></div>
   <div class="sec-scroll-wrap" style="visibility:hidden">
     <button class="scroll-hint sec-scroll-hint"><span>—</span><div class="scroll-arrow"></div></button>
   </div>
@@ -1105,21 +1050,17 @@ gsap.registerPlugin(ScrollTrigger);
     resetAll();
     var dur=0.7, step=0.08, ease='elastic.out(0.6,0.5)';
 
-    // Sağ kartlar
     rnIds.forEach(function(id,i){
       gsap.to('#'+id,{opacity:1,y:0,duration:dur,delay:i*step,ease:ease});
     });
 
-    // Orta text
     titleSpans.forEach(function(span,i){
       gsap.to(span,{opacity:1,y:0,duration:dur,delay:i*step,ease:ease});
     });
 
-    // Alt textler
     var lastDelay=(totalRows-1)*step+dur;
     gsap.to(['.s4-bl','.s4-br'],{opacity:1,y:0,duration:dur,delay:lastDelay,ease:ease});
 
-    // Sol kartlar — sağ ile aynı delay mantığı, son kart bittikten sonra yüzme başlar
     var lastLeftDelay=0;
     leftNodes.forEach(function(n,i){
       var row=Math.round(i/(leftNodes.length-1)*(totalRows-1));
@@ -1145,15 +1086,8 @@ gsap.registerPlugin(ScrollTrigger);
     onLeave:resetAll,onLeaveBack:resetAll
   });
 })();
-// ── S4 IŞIK ANİMASYONU — DEVRE DIŞI ──
 
 
-// ── CTA ANİMASYONU ──
-ScrollTrigger.create({trigger:'#cta',start:'top 75%',once:true,
-  onEnter:function(){
-    gsap.fromTo('#ctaCard',{opacity:0},{opacity:1,duration:1.0,ease:'power2.out'});
-  }
-});
 
 // ── TILT + BORDER GLOW ──
 (function(){
@@ -1165,12 +1099,10 @@ ScrollTrigger.create({trigger:'#cta',start:'top 75%',once:true,
         var r=card.getBoundingClientRect();
         var x=e.clientX-r.left, y=e.clientY-r.top;
         var cx=r.width/2, cy=r.height/2;
-        // Tilt: max 8deg
         var rotX=((y-cy)/cy)*-7;
         var rotY=((x-cx)/cx)*7;
         card.style.transform='perspective(900px) rotateX('+rotX+'deg) rotateY('+rotY+'deg) scale(1.018)';
         card.style.boxShadow='0 16px 40px rgba(0,0,0,0.14),inset 0 1px 0 rgba(255,255,255,0.6)';
-        // Spotlight — köşeye yaklaştıkça küçülür, su gibi şekillenir
         var px=(x/r.width), py=(y/r.height);
         var ex=Math.round(30+Math.abs(px-0.5)*50)+'%';
         var ey=Math.round(25+Math.abs(py-0.5)*40)+'%';
@@ -1320,97 +1252,133 @@ function toggleParticles(){
   setTimeout(function(){canvas.style.opacity='1';},1500);
 })();
 
-// ── DRAG WORDS ──
+// ── CTA SCATTER + DRAG ──
 (function(){
-  // Border animasyonu
-  var card=document.getElementById('ctaCard');
-  if(card){
-    card.addEventListener('mouseenter',function(){
-      card.classList.remove('border-close');
-      void card.offsetWidth; // reflow - animasyonu sıfırla
-      card.classList.add('border-open');
-    });
-    card.addEventListener('mouseleave',function(){
-      card.classList.remove('border-open');
-      void card.offsetWidth;
-      card.classList.add('border-close');
+  var area = document.getElementById('ctaScatter');
+  if(!area) return;
+
+  var items = [
+    {cls:'is-text', style:'font-size:clamp(38px,5vw,68px);font-family:var(--fh);font-weight:800;letter-spacing:-1.5px;color:var(--txt);', text:'Hemen'},
+    {cls:'is-text', style:'font-size:clamp(38px,5vw,68px);font-family:var(--fh);font-weight:800;letter-spacing:-1.5px;color:var(--txt);', text:'üye'},
+    {cls:'is-text', style:'font-size:clamp(38px,5vw,68px);font-family:var(--fh);font-weight:800;letter-spacing:-1.5px;color:var(--txt);', text:'ol'},
+    {cls:'is-sub',  style:'font-size:clamp(13px,1.2vw,16px);font-family:var(--fb);font-weight:500;color:var(--txt2);', text:'Kayıt'},
+    {cls:'is-sub',  style:'font-size:clamp(13px,1.2vw,16px);font-family:var(--fb);font-weight:500;color:var(--txt2);', text:'saniyeler'},
+    {cls:'is-sub',  style:'font-size:clamp(13px,1.2vw,16px);font-family:var(--fb);font-weight:500;color:var(--txt2);', text:'alır.'},
+    {cls:'is-caveat', style:'font-size:clamp(30px,3.8vw,56px);font-family:Caveat,cursive;font-weight:700;color:var(--txt);', text:'herşey,'},
+    {cls:'is-caveat', style:'font-size:clamp(30px,3.8vw,56px);font-family:Caveat,cursive;font-weight:700;color:var(--txt);', text:'senin'},
+    {cls:'is-caveat', style:'font-size:clamp(30px,3.8vw,56px);font-family:Caveat,cursive;font-weight:700;color:var(--txt);', text:'elinde'},
+    {cls:'is-caveat', style:'font-size:clamp(30px,3.8vw,56px);font-family:Caveat,cursive;font-weight:700;color:var(--txt);', text:'gerçekten.'},
+    {type:'btn'}
+  ];
+
+  function rf(min,max){ return min + Math.random()*(max-min); }
+
+  // Grid tabanlı yerleşim — üst üste binme yok, merkeze yakın dağılım
+  function placeItems(els, W, H){
+    var count = els.length;
+    var cols = Math.ceil(Math.sqrt(count * W / H));
+    var rows = Math.ceil(count / cols);
+    cols = Math.max(cols, 2); rows = Math.max(rows, 2);
+
+    // Merkeze yakın — geniş kenar boşluğu
+    var PAD_X = W * 0.18;
+    var PAD_Y = H * 0.16;
+    var areaW = W - PAD_X*2;
+    var areaH = H - PAD_Y*2;
+    var cellW = areaW / cols;
+    var cellH = areaH / rows;
+
+    // Hücreleri karıştır
+    var cells = [];
+    for(var r=0;r<rows;r++) for(var cc=0;cc<cols;cc++) cells.push({r:r,c:cc});
+    for(var i=cells.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1));
+      var tmp=cells[i]; cells[i]=cells[j]; cells[j]=tmp;
+    }
+
+    // Her eleman için yerleşim — önce konum hesapla, sonra çakışma kontrolü
+    var placed = []; // {x,y,w,h}
+
+    els.forEach(function(el, i){
+      var cell = cells[i % cells.length];
+      var w = el.offsetWidth  || 100;
+      var h = el.offsetHeight || 40;
+
+      var cx = PAD_X + cell.c * cellW + cellW/2;
+      var cy = PAD_Y + cell.r * cellH + cellH/2;
+
+      // Küçük offset — hücrenin %18'i kadar
+      var bestX = cx - w/2, bestY = cy - h/2;
+      var minOverlap = Infinity;
+
+      // 8 aday konum dene, en az çakışanı seç
+      for(var t=0;t<12;t++){
+        var tx = cx - w/2 + rf(-cellW*0.18, cellW*0.18);
+        var ty = cy - h/2 + rf(-cellH*0.18, cellH*0.18);
+        tx = Math.max(PAD_X*0.5, Math.min(W-w-PAD_X*0.5, tx));
+        ty = Math.max(PAD_Y*0.5, Math.min(H-h-PAD_Y*0.5, ty));
+
+        // Bu konumun toplam çakışma alanını hesapla
+        var overlap = 0;
+        for(var p=0;p<placed.length;p++){
+          var px=placed[p].x, py=placed[p].y, pw=placed[p].w, ph=placed[p].h;
+          var ox2=Math.max(0, Math.min(tx+w,px+pw)-Math.max(tx,px));
+          var oy2=Math.max(0, Math.min(ty+h,py+ph)-Math.max(ty,py));
+          overlap += ox2*oy2;
+        }
+        if(overlap < minOverlap){
+          minOverlap=overlap; bestX=tx; bestY=ty;
+        }
+      }
+
+      el.style.left = bestX + 'px';
+      el.style.top  = bestY + 'px';
+      placed.push({x:bestX, y:bestY, w:w, h:h});
     });
   }
 
-  document.querySelectorAll('.cta-draggable').forEach(function(el){
-    var dragging=false, moved=false, sx=0,sy=0,ox=0,oy=0;
-    var origParent=null, origNext=null;
-    el.style.cursor='grab';
+  function makeDraggable(el){
+    var dragging=false, sx=0, sy=0, ox=0, oy=0;
+
+    function getPos(){
+      return { x: parseFloat(el.style.left), y: parseFloat(el.style.top) };
+    }
+
+    function clamp(val, min, max){ return Math.max(min, Math.min(max, val)); }
 
     function startDrag(cx,cy){
-      dragging=true; moved=false;
-      origParent=el.parentNode;
-      origNext=el.nextSibling;
-      var r=el.getBoundingClientRect();
-      var cs=getComputedStyle(el);
-      el.style.width=r.width+'px';
-      el.style.height=r.height+'px';
-      el.style.fontSize=cs.fontSize;
-      el.style.fontFamily=cs.fontFamily;
-      el.style.fontWeight=cs.fontWeight;
-      el.style.lineHeight=cs.lineHeight;
-      el.style.boxSizing='border-box';
-      el.style.position='fixed';
-      el.style.left=r.left+'px';
-      el.style.top=r.top+'px';
-      el.style.zIndex='9999';
-      el.style.margin='0';
+      dragging=true;
+      sx=cx; sy=cy;
+      ox=parseFloat(el.style.left);
+      oy=parseFloat(el.style.top);
+      el.style.zIndex='100';
       el.style.cursor='grabbing';
-      document.body.appendChild(el);
-      ox=r.left; oy=r.top; sx=cx; sy=cy;
+      el.style.transition='none';
     }
 
     function moveDrag(cx,cy){
-      if(!dragging)return;
-      if(Math.abs(cx-sx)>3||Math.abs(cy-sy)>3) moved=true;
-      el.style.left=(ox+(cx-sx))+'px';
-      el.style.top=(oy+(cy-sy))+'px';
+      if(!dragging) return;
+      var W=area.offsetWidth, H=area.offsetHeight;
+      var w=el.offsetWidth,   h=el.offsetHeight;
+      var nx = clamp(ox+(cx-sx), 0, W-w);
+      var ny = clamp(oy+(cy-sy), 0, H-h);
+      el.style.left = nx+'px';
+      el.style.top  = ny+'px';
     }
 
-    function endDrag(e){
-      if(!dragging)return;
+    function endDrag(){
+      if(!dragging) return;
       dragging=false;
-      if(!moved && el.onclick){
-        el.style.cursor='grab';
-        el.onclick(e||{});
-        return;
-      }
-      // Card üzerinde bırakıldıysa orijinal yerine döndür
-      var card=document.getElementById('ctaCard');
-      if(card){
-        var cr=card.getBoundingClientRect();
-        var fx=parseFloat(el.style.left), fy=parseFloat(el.style.top);
-        var ew=parseFloat(el.style.width), eh=parseFloat(el.style.height);
-        var cx2=fx+ew/2, cy2=fy+eh/2;
-        if(cx2>cr.left&&cx2<cr.right&&cy2>cr.top&&cy2<cr.bottom){
-          // Orijinal yerine geri koy
-          el.style.position='';
-          el.style.left=''; el.style.top='';
-          el.style.width=''; el.style.height='';
-          el.style.zIndex=''; el.style.margin='';
-          el.style.cursor='grab';
-          if(origNext) origParent.insertBefore(el,origNext);
-          else origParent.appendChild(el);
-          return;
-        }
-      }
-      var fx=parseFloat(el.style.left), fy=parseFloat(el.style.top);
-      el.style.position='fixed';
-      el.style.left=fx+'px';
-      el.style.top=fy+'px';
+      el.style.zIndex='1';
       el.style.cursor='grab';
     }
 
+    el.style.cursor='grab';
     el.addEventListener('mousedown',function(e){
       e.preventDefault();
       startDrag(e.clientX,e.clientY);
-      function mm(e){moveDrag(e.clientX,e.clientY);}
-      function mu(e){endDrag(e);window.removeEventListener('mousemove',mm);window.removeEventListener('mouseup',mu);}
+      function mm(e){ moveDrag(e.clientX,e.clientY); }
+      function mu(){ endDrag(); window.removeEventListener('mousemove',mm); window.removeEventListener('mouseup',mu); }
       window.addEventListener('mousemove',mm);
       window.addEventListener('mouseup',mu);
     });
@@ -1421,81 +1389,136 @@ function toggleParticles(){
       e.preventDefault();
       moveDrag(e.touches[0].clientX,e.touches[0].clientY);
     },{passive:false});
-    el.addEventListener('touchend',function(e){endDrag(e);});
+    el.addEventListener('touchend',endDrag);
+  }
+
+  var PAD=60;
+
+  function scatter(){
+    area.innerHTML='';
+    // Alan boyutunu güvenli ölç — 0 ise window fallback
+    var W=area.offsetWidth  || window.innerWidth;
+    var H=area.offsetHeight || (window.innerHeight - 64);
+
+    items.forEach(function(item, i){
+      var el;
+      if(item.type==='btn'){
+        el=document.createElement('button');
+        el.className='btn-cta cta-item';
+        el.textContent='Kayıt Ol →';
+        el.addEventListener('click',function(){ openLogin(el); });
+      } else {
+        el=document.createElement('div');
+        el.className='cta-item '+item.cls;
+        if(item.style) el.style.cssText=item.style;
+        el.textContent=item.text;
+      }
+
+      el.style.position='absolute';
+      el.style.whiteSpace='nowrap';
+      el.style.lineHeight='1.1';
+      el.style.opacity='0';
+      el.style.transition='opacity 0.5s ease';
+      el.style.transform='none';
+      area.appendChild(el);
+
+      // rAF sonrası boyutu ölç — DOM'a eklendikten bir frame sonra kesin boyut var
+      (function(el, idx){
+        requestAnimationFrame(function(){
+          requestAnimationFrame(function(){
+            var w=el.offsetWidth||100, h=el.offsetHeight||40;
+            var x=rf(PAD, Math.max(PAD+1, W-w-PAD));
+            var y=rf(PAD, Math.max(PAD+1, H-h-PAD));
+            el.style.left=x+'px';
+            el.style.top=y+'px';
+            setTimeout(function(){ el.style.opacity='1'; }, idx*35);
+            makeDraggable(el);
+          });
+        });
+      })(el, i);
+    });
+  }
+
+  ScrollTrigger.create({
+    trigger:'#cta',
+    start:'top 80%',
+    onEnter: scatter,
+    onEnterBack: scatter
   });
 })();
 
-// ── EL YAZISI 3D DÖNDÜRME ──
+// ── EL YAZISI 3D DÖNDÜRME — tek shared rAF ──
 (function(){
-  var els = Array.from(document.querySelectorAll(
-    '.s1-handwrite, .s2-handwrite, .s3-title, .s3-big, .s4-bl, .s4-br, .s4-mid-title'
+  var items=[];
+  var tiltEls=Array.from(document.querySelectorAll(
+    '.s1-handwrite,.s2-handwrite,.s3-title,.s3-big,.s4-bl,.s4-br,.s4-mid-title'
   ));
-  var MAX=18, EASE=0.08;
-  els.forEach(function(el){
-    el.style.display='inline-block';
+  var MAX=18, EASE=0.07;
+
+  tiltEls.forEach(function(el){
+    // display ve boyut değiştirilmiyor — sadece transform
     el.style.transformStyle='preserve-3d';
-    el.style.willChange='transform';
     el.style.cursor='grab';
-    var rx=0,ry=0,trx=0,try_=0,raf=null,dragging=false,lastX=0,lastY=0,velX=0,velY=0;
-    function lerp(a,b,t){return a+(b-a)*t;}
-    function frame(){
-      if(!dragging){trx=0;try_=0;}
-      rx=lerp(rx,trx,EASE);
-      ry=lerp(ry,try_,EASE);
-      el.style.transform='perspective(600px) rotateX('+(-rx)+'deg) rotateY('+ry+'deg)';
-      raf=requestAnimationFrame(frame);
-    }
-    raf=requestAnimationFrame(frame);
-    // Mouse
-    el.addEventListener('mouseenter',function(e){
-      dragging=false;
-    });
+    var state={el:el,rx:0,ry:0,trx:0,try_:0,dragging:false,lastX:0,lastY:0};
+    items.push(state);
+
     el.addEventListener('mousemove',function(e){
-      if(dragging) return;
+      if(state.dragging)return;
       var r=el.getBoundingClientRect();
-      var nx=((e.clientX-r.left)/r.width-0.5)*2;
-      var ny=((e.clientY-r.top)/r.height-0.5)*2;
-      try_=nx*MAX; trx=ny*MAX;
+      state.try_=((e.clientX-r.left)/r.width-0.5)*2*MAX;
+      state.trx=((e.clientY-r.top)/r.height-0.5)*2*MAX;
     });
     el.addEventListener('mouseleave',function(){
-      if(!dragging){trx=0;try_=0;}
+      if(!state.dragging){state.trx=0;state.try_=0;}
     });
-    // Drag
     el.addEventListener('mousedown',function(e){
-      dragging=true;el.style.cursor='grabbing';
-      lastX=e.clientX;lastY=e.clientY;velX=0;velY=0;
+      state.dragging=true;el.style.cursor='grabbing';
+      state.lastX=e.clientX;state.lastY=e.clientY;
       e.preventDefault();
     });
     window.addEventListener('mousemove',function(e){
-      if(!dragging)return;
-      velX=e.clientX-lastX; velY=e.clientY-lastY;
-      try_+=velX*0.5; trx+=velY*0.5;
-      try_=Math.max(-MAX*2,Math.min(MAX*2,try_));
-      trx=Math.max(-MAX*2,Math.min(MAX*2,trx));
-      lastX=e.clientX;lastY=e.clientY;
+      if(!state.dragging)return;
+      var vx=e.clientX-state.lastX, vy=e.clientY-state.lastY;
+      state.try_=Math.max(-MAX*2,Math.min(MAX*2,state.try_+vx*0.5));
+      state.trx=Math.max(-MAX*2,Math.min(MAX*2,state.trx+vy*0.5));
+      state.lastX=e.clientX;state.lastY=e.clientY;
     });
     window.addEventListener('mouseup',function(){
-      if(!dragging)return;
-      dragging=false;el.style.cursor='grab';
-      trx=0;try_=0;
+      if(!state.dragging)return;
+      state.dragging=false;el.style.cursor='grab';
+      state.trx=0;state.try_=0;
     });
-    // Touch
     el.addEventListener('touchstart',function(e){
-      dragging=true;
-      lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;
+      state.dragging=true;
+      state.lastX=e.touches[0].clientX;state.lastY=e.touches[0].clientY;
     },{passive:true});
     el.addEventListener('touchmove',function(e){
-      if(!dragging)return;
-      velX=e.touches[0].clientX-lastX; velY=e.touches[0].clientY-lastY;
-      try_+=velX*0.5; trx+=velY*0.5;
-      try_=Math.max(-MAX*2,Math.min(MAX*2,try_));
-      trx=Math.max(-MAX*2,Math.min(MAX*2,trx));
-      lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;
+      if(!state.dragging)return;
+      var vx=e.touches[0].clientX-state.lastX, vy=e.touches[0].clientY-state.lastY;
+      state.try_=Math.max(-MAX*2,Math.min(MAX*2,state.try_+vx*0.5));
+      state.trx=Math.max(-MAX*2,Math.min(MAX*2,state.trx+vy*0.5));
+      state.lastX=e.touches[0].clientX;state.lastY=e.touches[0].clientY;
     },{passive:true});
-    el.addEventListener('touchend',function(){dragging=false;trx=0;try_=0;});
+    el.addEventListener('touchend',function(){state.dragging=false;state.trx=0;state.try_=0;});
   });
+
+  // TEK shared rAF — tüm elementler burada güncelleniyor
+  (function loop(){
+    requestAnimationFrame(loop);
+    for(var i=0;i<items.length;i++){
+      var s=items[i];
+      if(!s.dragging){s.trx=s.trx*0;s.try_=s.try_*0;} // mouseleave zaten sıfırlıyor, bunu atlayabiliriz
+      s.rx+=(s.trx-s.rx)*EASE;
+      s.ry+=(s.try_-s.ry)*EASE;
+      // threshold — çok küçük değerlerde transform yazmayı durdur
+      if(Math.abs(s.rx)<0.01&&Math.abs(s.ry)<0.01&&Math.abs(s.trx)<0.01&&Math.abs(s.try_)<0.01){
+        if(s.el.style.transform!=='') s.el.style.transform='';
+        continue;
+      }
+      s.el.style.transform='perspective(600px) rotateX('+(-s.rx).toFixed(2)+'deg) rotateY('+s.ry.toFixed(2)+'deg)';
+    }
+  })();
 })();
 </script>
 </body>
 </html>
-
