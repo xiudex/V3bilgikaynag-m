@@ -57,17 +57,57 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;height:64px;
 
 /* ══ SCROLL HINT ══ */
 @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+@keyframes sheen{
+  0%  {background-position:-200% center;}
+  100%{background-position: 200% center;}
+}
 .scroll-hint{
-  display:flex;flex-direction:column;align-items:center;gap:8px;
+  display:inline-flex;flex-direction:row;align-items:center;gap:10px;
   background:none;border:none;cursor:pointer;padding:0;text-decoration:none;pointer-events:all;
-  opacity:0;animation:fadeUp .6s var(--ease2) 1.4s forwards}
-.scroll-hint span{font-size:11px;color:var(--txt2);letter-spacing:.5px;font-weight:500;
-  text-transform:uppercase;transition:color .2s}
+  opacity:0;animation:fadeUp .6s var(--ease2) 1.4s forwards;
+}
+.scroll-hint span{font-size:11px;letter-spacing:.5px;font-weight:600;
+  text-transform:uppercase;transition:color .2s;color:var(--txt);}
 .scroll-hint:hover span{color:var(--acc)}
-.scroll-arrow{width:24px;height:24px;display:flex;align-items:center;justify-content:center;
-  animation:bounce 2s ease-in-out infinite}
-.sec-scroll-hint{opacity:1;animation:none}
+
+/* Yuvarlak ok kapsülü */
+.scroll-arrow{
+  width:36px;height:36px;
+  border-radius:50%;
+  border:1.5px solid var(--border);
+  background:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  position:relative;
+  overflow:hidden;
+  transition:border-color .2s, transform .2s var(--ease2);
+}
+.scroll-hint:hover .scroll-arrow{
+  border-color:var(--acc);
+  transform:scale(1.08);
+}
+/* Soldan sağa parlama */
+.scroll-arrow::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(105deg,
+    transparent 30%,
+    rgba(255,255,255,0.75) 50%,
+    transparent 70%);
+  background-size:200% 100%;
+  animation:sheen 2.4s ease-in-out infinite;
+}
+/* Ok içi svg */
+.scroll-arrow svg{position:relative;z-index:1;}
+
+/* Hero scroll hint */
+.hero-scroll-wrap .scroll-hint{animation:none;opacity:1;}
+.hero-scroll-wrap .scroll-hint span{font-size:12px;letter-spacing:1px}
+.hero-scroll-wrap .scroll-arrow{width:40px;height:40px;}
+
+/* Diğer section hint — sürekli görünür */
+.sec-scroll-hint{opacity:1;animation:none;}
 
 /* ══ HERO ══ */
 #hero{
@@ -95,19 +135,22 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;height:64px;
 .hero-sub{font-size:clamp(15px,1.4vw,18px);line-height:1.7;color:var(--txt2);
   max-width:480px;margin-bottom:22px;
   opacity:0;transform:translateY(12px);animation:fadeUp .8s var(--ease2) .35s forwards}
-.hero-stats{display:flex;gap:0;align-items:center;justify-content:center;margin-bottom:24px;
+.hero-stats{display:flex;gap:0;align-items:center;justify-content:center;margin-bottom:28px;
   opacity:0;transform:translateY(8px);animation:fadeUp .7s var(--ease2) .5s forwards}
 .hstat{padding:0 22px;text-align:center}
 .hstat:first-child{padding-left:0}
 .hstat b{display:block;font-family:var(--fh);font-size:clamp(20px,2vw,28px);font-weight:800;color:var(--acc)}
 .hstat span{font-size:12px;color:var(--txt2);margin-top:2px;display:block}
 .hstat-sep{width:1px;height:32px;background:var(--border)}
-.btn-primary{padding:13px 32px;border-radius:50px;border:none;background:var(--acc);color:#fff;
-  font-family:var(--fb);font-size:15px;font-weight:600;cursor:pointer;
-  transition:transform .15s var(--ease2),box-shadow .2s,background .2s;
-  box-shadow:0 4px 20px rgba(0,122,255,.35);margin-bottom:12px;
+/* Hero ana butonu — büyük ve belirgin */
+.btn-primary{
+  padding:16px 44px;border-radius:50px;border:none;background:var(--acc);color:#fff;
+  font-family:var(--fb);font-size:17px;font-weight:700;cursor:pointer;
+  transition:transform .2s var(--ease2),box-shadow .25s,background .2s;
+  box-shadow:0 6px 28px rgba(0,122,255,.40);margin-bottom:12px;
+  letter-spacing:-.2px;
   opacity:0;transform:translateY(10px);animation:fadeUp .7s var(--ease2) .65s forwards}
-.btn-primary:hover{background:var(--acc2);transform:scale(1.04);box-shadow:0 6px 28px rgba(0,122,255,.45)}
+.btn-primary:hover{background:var(--acc2);transform:scale(1.06);box-shadow:0 10px 36px rgba(0,122,255,.50)}
 .btn-primary:active{transform:scale(.97)}
 .hero-or{font-size:12px;color:var(--txt2);margin-bottom:20px;
   opacity:0;animation:fadeUp .6s var(--ease2) .75s forwards}
@@ -116,16 +159,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;height:64px;
   display:flex;justify-content:center;align-items:center;
   height:88px;padding-bottom:8px;
 }
-.hero-scroll-wrap .scroll-hint{animation:none;opacity:1}
-.hero-scroll-wrap .scroll-hint span{font-size:13px;letter-spacing:1.2px}
-.hero-scroll-wrap .scroll-arrow{width:28px;height:28px}
 
 /* ══ SECTIONS ORTAK ══ */
 .page-section{
   min-height:100vh;min-height:100dvh;
   display:grid;grid-template-rows:1fr auto;
-  position:relative;overflow:hidden;
-  contain:layout style;
+  position:relative;overflow:visible;
 }
 .page-section:nth-of-type(odd){background:var(--bg)}
 .page-section:nth-of-type(even){background:var(--white)}
@@ -171,19 +210,24 @@ body.dark .cat-card{
 .glow-card > *{position:relative;z-index:1;}
 
 /* ══ S1 ══ */
-#s1 .sec-body{padding:0px 5vw 3vh;align-items:center;margin-top:-60px;}
-.s1-outer{width:100%;max-width:1100px;margin:0 auto;margin-top:60px;}
+#s1 .sec-body{padding:0 5vw;align-items:center;}
+.s1-outer{
+  width:100%;max-width:1100px;margin:0 auto;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:40px 0;
+  gap:0;
+}
 .s1-row{
   width:100%;display:grid;
   grid-template-columns:1fr 1fr 1fr;
-  column-gap:clamp(20px,4vw,60px);
-  height:50vh;min-height:400px;max-height:550px;
+  column-gap:clamp(24px,4vw,56px);
   align-items:stretch;
+  height:min(52vh,520px);
 }
-.s1-col{display:flex;flex-direction:column;}
-.s1-col-a{justify-content:space-between;padding-top:0;padding-bottom:0;}
+.s1-col{display:flex;flex-direction:column;height:100%;}
+.s1-col-a{justify-content:flex-start;}
 .s1-col-b{justify-content:center;}
-.s1-col-c{justify-content:space-between;padding-top:0;padding-bottom:0;}
+.s1-col-c{justify-content:flex-start;}
 
 .s1-lbl{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--txt);
   letter-spacing:0.4px;margin-bottom:12px;}
@@ -210,24 +254,40 @@ body.dark .s1-card{
 .s1-card:hover{will-change:transform;}
 .s1-card p{font-size:15px;line-height:1.6;color:var(--txt);margin:0;font-weight:500;}
 
-.s1-handwrite{font-family:'Caveat',cursive;font-weight:700;color:var(--txt);line-height:1.15;}
-.s1-soft{font-size:clamp(42px,5vw,66px);padding-bottom:12vh;padding-top:6vh;}
-.s1-bigtitle{font-size:clamp(52px,6.2vw,84px);text-align:right;padding-top:1vh;}
+.s1-handwrite{
+  font-family:'Caveat',cursive;font-weight:700;color:var(--txt);
+  line-height:1.0;
+  display:block;
+  margin:0;padding:0;
+}
+.s1-soft{
+  font-size:clamp(48px,5.5vw,72px);
+  align-self:flex-start;
+}
+.s1-bigtitle{
+  font-size:clamp(48px,5.5vw,72px);
+  text-align:right;
+  align-self:flex-end;
+}
 
 /* ══ S2 ══ */
-#s2 .sec-body{padding:20px 5vw 3vh;align-items:center;}
-.s2-outer{width:100%;max-width:1100px;margin:0 auto;}
+#s2 .sec-body{padding:0 5vw;align-items:center;}
+.s2-outer{
+  width:100%;max-width:1100px;margin:0 auto;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:40px 0;
+}
 .s2-row{
   width:100%;display:grid;
   grid-template-columns:1fr 1fr 1fr;
-  column-gap:clamp(20px,4vw,60px);
-  height:50vh;min-height:400px;max-height:550px;
+  column-gap:clamp(24px,4vw,56px);
   align-items:stretch;
+  height:min(52vh,520px);
 }
-.s2-col{display:flex;flex-direction:column;}
-.s2-col-a{justify-content:space-between;padding-top:0;padding-bottom:0;}
+.s2-col{display:flex;flex-direction:column;height:100%;}
+.s2-col-a{justify-content:flex-end;}
 .s2-col-b{justify-content:center;}
-.s2-col-c{justify-content:space-between;padding-top:0;padding-bottom:0;}
+.s2-col-c{justify-content:flex-start;}
 
 .s2-lbl{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--txt);
   letter-spacing:0.4px;margin-bottom:12px;}
@@ -254,70 +314,121 @@ body.dark .s2-card{
 .s2-card:hover{will-change:transform;}
 .s2-card p{font-size:15px;line-height:1.6;color:var(--txt);margin:0;font-weight:500;}
 
-.s2-handwrite{font-family:'Caveat',cursive;font-weight:700;color:var(--txt);line-height:1.05;}
-.s2-text-left{font-size:clamp(52px,6.2vw,84px);text-align:left;padding-top:2vh;}
-.s2-text-right{font-size:clamp(52px,6.2vw,84px);text-align:right;margin-top:auto;padding-top:6vh;}
+.s2-handwrite{
+  font-family:'Caveat',cursive;font-weight:700;color:var(--txt);
+  line-height:1.0;
+  display:block;
+  margin:0;padding:0;
+}
+.s2-text-left{
+  font-size:clamp(48px,5.5vw,72px);
+  text-align:left;
+  align-self:flex-start;
+}
+.s2-text-right{
+  font-size:clamp(48px,5.5vw,72px);
+  text-align:right;
+  align-self:flex-end;
+  margin-top:auto;
+}
 
 /* ══ S3 — 2x2 grid ══ */
 #s3{background:var(--bg);overflow:visible;}
-#s3 .sec-body{padding:120px 5vw 20px;align-items:stretch;}
-.s3-grid{
+#s3 .sec-body{padding:0 5vw;align-items:center;}
+.s3-outer{
   width:100%;max-width:1100px;margin:0 auto;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:40px 0;
+}
+.s3-grid{
+  width:100%;
   display:grid;
   grid-template-columns:1fr 1fr;
-  grid-template-rows:auto auto;
-  column-gap:56px;
-  row-gap:32px;
-  align-items:start;
+  grid-template-rows:1fr 1fr;
+  column-gap:64px;
+  row-gap:0;
+  height:min(56vh,560px);
 }
-.s3-cell-a{grid-column:1;grid-row:1;}
-.s3-cell-b{grid-column:2;grid-row:1;}
-.s3-cell-c{grid-column:1;grid-row:2;}
-.s3-cell-d{grid-column:2;grid-row:2;display:flex;justify-content:center;align-items:flex-start;}
-.s3-title{font-family:'Caveat',cursive;font-size:clamp(40px,4.5vw,60px);font-weight:700;
-  letter-spacing:0;line-height:1.1;color:var(--txt);text-align:left;}
-.s3-lbl{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:700;color:var(--txt);
+/* Hücre A: sol üst — yazı alta hizalı */
+.s3-cell-a{grid-column:1;grid-row:1;display:flex;align-items:flex-end;padding-bottom:28px;}
+/* Hücre B: sağ üst — kart alta hizalı (son satır yazıyla aynı hizada) */
+.s3-cell-b{grid-column:2;grid-row:1;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:28px;}
+/* Hücre C: sol alt — kart üste hizalı (etiket yazının ilk satırıyla aynı hizada) */
+.s3-cell-c{grid-column:1;grid-row:2;display:flex;flex-direction:column;justify-content:flex-start;padding-top:28px;}
+/* Hücre D: sağ alt — yazı üste hizalı */
+.s3-cell-d{grid-column:2;grid-row:2;display:flex;justify-content:flex-end;align-items:flex-start;padding-top:28px;}
+.s3-title{font-family:'Caveat',cursive;font-size:clamp(46px,5.2vw,72px);font-weight:700;
+  letter-spacing:0;line-height:1.05;color:var(--txt);text-align:left;margin:0;padding:0;}
+.s3-lbl{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:700;color:var(--txt);
   letter-spacing:0.4px;margin-bottom:14px;}
 .s3-lbl .s3-emoji{font-size:18px;}
-.s3-big{font-family:'Caveat',cursive;font-size:clamp(44px,5.3vw,70px);font-weight:700;
-  line-height:1.1;color:var(--txt);}
-.s3-big-main{font-size:clamp(53px,6.4vw,84px);}
+.s3-big{font-family:'Caveat',cursive;font-size:clamp(46px,5.8vw,80px);font-weight:700;
+  line-height:1.05;color:var(--txt);margin:0;padding:0;}
+.s3-big-main{font-size:clamp(56px,6.8vw,90px);}
 
 /* ══ S4 ══ */
 #s4{background:var(--white)}
-#s4 .sec-body{padding:60px 5vw 10px;display:block;}
+#s4 .sec-body{padding:0 5vw;display:flex;align-items:center;}
 
 .s4-outer{
   width:100%;max-width:1100px;margin:0 auto;
-  display:flex; flex-direction:column;
-  margin-top: 5vh;
+  display:flex;flex-direction:column;gap:0;
+  padding:40px 0;
+  height:min(56vh,560px);
 }
 
 .s4-row{
   display:grid;
-  grid-template-columns:1fr 220px 1fr;
-  column-gap:clamp(20px,4vw,60px);
-  height:55vh; min-height:450px; max-height:550px;
-  align-items:center;
+  grid-template-columns:1fr 200px 1fr;
+  column-gap:clamp(20px,4vw,48px);
+  flex:1;
+  align-items:stretch;
 }
 
 .s4-mid-title-wrap{
-  display:flex;justify-content:flex-start;
-  align-items:flex-start; 
-  height: 100%;
-  padding-top: 10vh;
-  padding-left: 10px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100%;
 }
 .s4-mid-title{
   font-family:'Caveat',cursive;
   font-weight:700;
-  font-size:clamp(38px,4.5vw,56px);
-  line-height:1.1;color:var(--txt);
-  text-align:left;
-  display:flex;flex-direction:column;gap:8px;
-  width:100%; 
+  font-size:clamp(34px,4vw,52px);
+  line-height:1.05;color:var(--txt);
+  text-align:center;
+  display:flex;flex-direction:column;gap:4px;
+  width:100%;
 }
-.s4-mid-title span { display: block; }
+.s4-mid-title span{display:block;}
+
+.s4-bottom{
+  display:grid;
+  grid-template-columns:1fr 200px 1fr;
+  column-gap:clamp(20px,4vw,48px);
+  padding:56px 0 8px;
+  align-items:center;
+  flex-shrink:0;
+}
+.s4-bl{
+  font-family:'Caveat',cursive;font-size:clamp(28px,3.2vw,44px);
+  font-weight:700;color:var(--txt);
+  text-align:center;
+  margin:0;white-space:nowrap;
+}
+.s4-br{
+  font-family:'Caveat',cursive;font-size:clamp(28px,3.2vw,44px);
+  font-weight:700;color:var(--txt);
+  text-align:center;
+  grid-column:3;
+  margin:0;
+}
+
+.sec-scroll-wrap-s4{
+  display:flex;justify-content:center;
+  padding:12px 0 28px;
+  position:relative;z-index:20;
+}
 
 .mm-node{
   border:none;
@@ -388,6 +499,8 @@ body.dark .mind-col-left .mm-node{background:transparent;}
   overflow:visible;
 }
 body.dark .mind-col-right .mm-node{background:transparent;}
+body.dark #rnArrows line.rn-arrow{stroke:#ddd;}
+body.dark #rnArrows marker#arrowHead path{fill:#ddd;}
 
 /* Sağ taraf SVG ışık canvas */
 #rnLightCanvas{
@@ -413,70 +526,57 @@ body.dark .mind-col-right .mm-node{background:transparent;}
   box-shadow:0 0 0 2px rgba(0,122,255,.15),0 0 18px rgba(0,122,255,.25);
 }
 
-.s4-bottom{
-  display:grid;
-  grid-template-columns:1fr 220px 1fr;
-  column-gap:clamp(20px,4vw,60px);
-  margin-top: 5vh; 
-  align-items:center;
-}
-.s4-bl, .s4-br{
-  font-family:'Caveat',cursive;font-size:clamp(32px,3.9vw,50px);
-  font-weight:700;color:var(--txt);letter-spacing:0;
-  margin: 0; align-self: center;
-}
-.s4-bl{
-  text-align:center;
-  margin-right:80px;
-  white-space:nowrap;
-}
-.s4-br{
-  text-align:center;
-  grid-column:3;
-  margin-top:20px;
-}
 
-.sec-scroll-wrap-s4{
-  display:flex;justify-content:center;
-  margin-top:-60px; position:relative; z-index:20;
-}
 
 /* ══ CTA ══ */
 #cta{background:var(--bg)}
-.cta-scatter-area{
-  position:relative;
-  width:100%;
-  flex:1;
-  min-height:calc(100dvh - 64px);
-  overflow:hidden;
+.cta-body{justify-content:center;align-items:center;}
+.cta-two-col{
+  width:100%;max-width:1100px;margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  column-gap:clamp(32px,5vw,80px);
+  align-items:center;
 }
-.cta-item{
-  position:absolute;
+/* Sol — el yazısı dikey, sola yaslanmış */
+.cta-left{
+  display:flex;flex-direction:column;
+  align-items:flex-start;gap:2px;
   user-select:none;
+}
+/* Sağ — başlık + alt + buton */
+.cta-right{
+  display:flex;flex-direction:column;
+  align-items:flex-start;gap:16px;
+  user-select:none;
+}
+.cta-row{display:flex;flex-direction:row;align-items:baseline;gap:clamp(10px,1.5vw,22px);}
+.cta-item-s{
+  font-family:var(--fb);font-size:clamp(12px,1vw,14px);
+  font-weight:500;color:var(--txt2);margin:0;cursor:grab;
+}
+/* Ortak büyüklük referansı: --cta-size */
+.cta-item-h{
+  font-family:var(--fh);font-weight:800;
+  font-size:clamp(48px,6.5vw,92px);
+  letter-spacing:-2px;line-height:1.0;
+  color:var(--txt);cursor:grab;
+  display:inline;
   white-space:nowrap;
-  cursor:default;
 }
-.cta-item.is-text{
-  font-family:var(--fh);
-  font-weight:800;
-  letter-spacing:-1px;
-  color:var(--txt);
-  line-height:1.1;
+.cta-item-c{
+  font-family:'Caveat',cursive;font-weight:700;
+  font-size:clamp(56px,8vw,112px);
+  line-height:1.05;color:var(--txt);cursor:grab;
+  display:block;
 }
-.cta-item.is-sub{
-  font-family:var(--fb);
-  font-size:clamp(13px,1.2vw,16px);
-  font-weight:500;
-  color:var(--txt2);
-}
-.cta-item.is-caveat{
-  font-family:'Caveat',cursive;
-  font-weight:700;
-  color:var(--txt);
+.cta-gercekten{
+  font-size:clamp(36px,5vw,68px);
+  color:var(--txt2);margin-top:6px;
 }
 .btn-cta{
   padding:16px 44px;border-radius:50px;border:none;
-  background:var(--acc);color:#fff;font-family:var(--fb);font-size:15px;font-weight:700;cursor:pointer;
+  background:var(--acc);color:#fff;font-family:var(--fb);font-size:16px;font-weight:700;cursor:grab;
   transition:transform .15s var(--ease2),box-shadow .2s;
   box-shadow:0 4px 20px rgba(0,122,255,.35);
   white-space:nowrap;
@@ -543,7 +643,7 @@ footer a:hover{color:var(--acc)}
 .mr-footer a{color:var(--acc);text-decoration:none}
 
 /* ══ PARTICLES ══ */
-#particleCanvas{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden;transition:opacity 1.8s ease;opacity:0}
+#particleCanvas{position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden;transition:opacity 1.8s ease;opacity:0}
 .particle{
   position:absolute;
   user-select:none;pointer-events:all;
@@ -626,13 +726,6 @@ footer a:hover{color:var(--acc)}
 <nav id="mainNav">
   <a class="nav-logo" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">bilgi<span>kaynağım</span></a>
   <div class="nav-right">
-    <button class="nav-icon-btn" id="particleBtn" onclick="toggleParticles()" title="Simgeleri göster/gizle">
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-        <path class="eye-shape" d="M1 9C1 9 4 4 9 4C14 4 17 9 17 9C17 9 14 14 9 14C4 14 1 9 1 9Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-        <circle class="eye-pupil" cx="9" cy="9" r="2.5" fill="currentColor"/>
-        <line class="eye-slash" x1="2" y1="16" x2="16" y2="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="opacity:0;transition:opacity .25s"/>
-      </svg>
-    </button>
     <button class="nav-icon-btn" id="themeBtn" onclick="toggleTheme()" title="Tema değiştir" style="overflow:hidden;position:relative">
       <svg id="iconMoon" width="16" height="16" viewBox="0 0 16 16" fill="none" style="position:absolute;transition:transform .5s cubic-bezier(.34,1.56,.64,1),opacity .4s;transform:scale(1) rotate(0deg);opacity:1">
         <path d="M13.5 10.5A6 6 0 0 1 5.5 2.5a6 6 0 1 0 8 8z" fill="currentColor"/>
@@ -672,7 +765,7 @@ footer a:hover{color:var(--acc)}
       <span>Tikla veya kaydır</span>
       <div class="scroll-arrow">
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-          <path d="M6 2v8M3 7l3 3 3-3" stroke="#5A6070" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
     </button>
@@ -684,16 +777,16 @@ footer a:hover{color:var(--acc)}
     <div class="s1-outer">
       <div class="s1-row">
         <div class="s1-col s1-col-a">
-          <div id="s1A1">
+          <div id="s1A1" style="margin-top:0;">
             <div class="s1-lbl"><span class="s1-emoji">❓</span>Soru Cevap</div>
             <div class="s1-card glow-card">
               <p>Takıldığın yerde kalma. Sorularını topluluğa sor, anında çözüm bul.</p>
             </div>
           </div>
-          <p id="s1A3" class="s1-handwrite s1-soft">sizin<br>için<br>özenle<br>tasarlandı.</p>
+          <p id="s1A3" class="s1-handwrite s1-soft" style="margin-top:auto;padding-top:10vh;">sizin<br>için<br>özenle<br>tasarlandı.</p>
         </div>
         <div class="s1-col s1-col-b">
-          <div id="s1B1" style="margin-bottom:50px;">
+          <div id="s1B1" style="margin-top:22%;margin-bottom:0;">
             <div class="s1-lbl"><span class="s1-emoji">✋</span>Not İste</div>
             <div class="s1-card glow-card">
               <p>Eksiklerini tamamla. İhtiyacın olan kaynağı anında talep et.</p>
@@ -701,8 +794,8 @@ footer a:hover{color:var(--acc)}
           </div>
         </div>
         <div class="s1-col s1-col-c">
-          <p id="s1C3" class="s1-handwrite s1-bigtitle">Kaydırmaktan<br>Korkma.</p>
-          <div id="s1C1" style="margin-bottom:80px;">
+          <p id="s1C3" class="s1-handwrite s1-bigtitle" style="margin-bottom:auto;padding-bottom:8vh;">Kaydırmaktan<br>Korkma.</p>
+          <div id="s1C1" style="margin-top:auto;">
             <div class="s1-lbl"><span class="s1-emoji">👥</span>Grup / Sınıfım</div>
             <div class="s1-card glow-card">
               <p>Kalabalıkta kaybolma, kendi sınıfınla etkileşime geç.</p>
@@ -715,7 +808,7 @@ footer a:hover{color:var(--acc)}
   <div class="sec-scroll-wrap">
     <button class="scroll-hint sec-scroll-hint" onclick="document.getElementById('s2').scrollIntoView({behavior:'smooth',block:'start'})">
       <span>Hedeflerine nasıl odaklanacağını gör</span>
-      <div class="scroll-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="#5A6070" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="scroll-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     </button>
   </div>
 </section>
@@ -725,8 +818,8 @@ footer a:hover{color:var(--acc)}
     <div class="s2-outer">
       <div class="s2-row">
         <div class="s2-col s2-col-a">
-          <p id="s2A1" class="s2-handwrite s2-text-left">Alışılmışın<br>dışında.</p>
-          <div id="s2A2">
+          <p id="s2A1" class="s2-handwrite s2-text-left" style="margin-bottom:auto;">Alışılmışın<br>dışında.</p>
+          <div id="s2A2" style="margin-top:auto;">
             <div class="s2-lbl"><span class="s2-emoji">📅</span>Takvim</div>
             <div class="s2-card glow-card">
               <p>Zamanı sen yönet. Geçmiş çalışmalarını analiz et, gelecekteki adımlarını planla.</p>
@@ -748,7 +841,7 @@ footer a:hover{color:var(--acc)}
               <p>Kararsızlığa son. Hedefine ve eksiklerine göre algoritmanın senin için çizdiği günlük rotayı takip et.</p>
             </div>
           </div>
-          <p id="s2C2" class="s2-handwrite s2-text-right">Başarı<br>için<br>planlandı.</p>
+          <p id="s2C2" class="s2-handwrite s2-text-right" style="margin-top:auto;padding-top:8vh;">Başarı<br>için<br>planlandı.</p>
         </div>
       </div>
     </div>
@@ -756,13 +849,14 @@ footer a:hover{color:var(--acc)}
   <div class="sec-scroll-wrap">
     <button class="scroll-hint sec-scroll-hint" onclick="document.getElementById('s3').scrollIntoView({behavior:'smooth',block:'start'})">
       <span>Daha fazla şey öğren</span>
-      <div class="scroll-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="#5A6070" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="scroll-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     </button>
   </div>
 </section>
 
 <section class="page-section" id="s3">
   <div class="sec-body">
+    <div class="s3-outer">
     <div class="s3-grid">
       <div class="s3-cell-a" id="s3CellA">
         <h2 class="s3-title">Merak etmeyin,<br>Herkese hitap<br>eden bir dil</h2>
@@ -773,27 +867,28 @@ footer a:hover{color:var(--acc)}
           <p>Hangi seviyede olursan ol, sana özel filtrelenmiş tüm ders ve sınav kaynakları tek tık uzağında.</p>
         </div>
       </div>
-      <div class="s3-cell-c" id="s3CellC" style="padding-top:96px">
+      <div class="s3-cell-c" id="s3CellC">
         <div class="s3-lbl"><span class="s3-emoji">📈</span>Gelişim Takibi</div>
         <div class="cat-card glow-card">
           <p>İlerlemeni analiz et, grafiklerle performansını ölç. Zayıflıklarını güce dönüştür.</p>
         </div>
       </div>
       <div class="s3-cell-d" id="s3CellD">
-        <p class="s3-big" style="text-align:right;width:100%;font-size:clamp(46px,5.8vw,84px);">Hedefleriniz<br>için özenle<br>hazırlandı.</p>
+        <p class="s3-big" style="text-align:right;width:100%;">Hedefleriniz<br>için özenle<br>hazırlandı.</p>
       </div>
-    </div>
+    </div><!-- s3-grid -->
+    </div><!-- s3-outer -->
   </div>
   <div class="sec-scroll-wrap">
     <button class="scroll-hint sec-scroll-hint" onclick="document.getElementById('s4').scrollIntoView({behavior:'smooth',block:'start'})">
       <span>Dağınıklığa son ver</span>
-      <div class="scroll-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="#5A6070" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="scroll-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     </button>
   </div>
 </section>
 
 <section class="page-section" id="s4">
-  <div class="sec-body" style="display:block">
+  <div class="sec-body">
     <div class="s4-outer">
       <div class="s4-row">
         <div class="mind-col-left" id="mmLeft">
@@ -827,6 +922,37 @@ footer a:hover{color:var(--acc)}
 
         <div class="mind-col-right" id="mmRight">
           <svg id="rnLightCanvas" xmlns="http://www.w3.org/2000/svg"><defs><filter id="rnBlur"><feGaussianBlur stdDeviation="2.5"/></filter></defs></svg>
+          <!-- Ok katmanı: kartın sağ/sol kenarından çıkar, sonraki kartın kenarına girer -->
+          <svg id="rnArrows" xmlns="http://www.w3.org/2000/svg"
+            style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible;opacity:0;transition:opacity 0.5s ease;">
+            <defs>
+              <marker id="arrowHead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                <path d="M0,1 L0,7 L8,4 z" fill="#111"/>
+              </marker>
+            </defs>
+            <!--
+              Kart genişliği 140px, margin-left:-70px (merkezlenmiş)
+              left:20% → kart sol kenar = 20%-70px, sağ kenar = 20%+70px
+              left:80% → kart sol kenar = 80%-70px, sağ kenar = 80%+70px
+              Ok: rn0 sağ kenarından → rn1 sol kenarına (kısa, köşeden köşe)
+            -->
+            <!-- rn0 sağ(20%+70px, 0%) → rn1 sol(80%-70px, 12.5%) -->
+            <line class="rn-arrow" x1="calc(20% + 70px)" y1="0%"   x2="calc(80% - 70px)" y2="12.5%" stroke="#222" stroke-width="1.4" marker-end="url(#arrowHead)"/>
+            <!-- rn1 sol(80%-70px, 12.5%) → rn2 sağ(20%+70px, 25%) -->
+            <line class="rn-arrow" x1="calc(80% - 70px)" y1="12.5%" x2="calc(20% + 70px)" y2="25%"  stroke="#222" stroke-width="1.4" marker-end="url(#arrowHead)"/>
+            <!-- rn2 sağ → rn3 sol -->
+            <line class="rn-arrow" x1="calc(20% + 70px)" y1="25%"  x2="calc(80% - 70px)" y2="37.5%" stroke="#222" stroke-width="1.4" marker-end="url(#arrowHead)"/>
+            <!-- rn3 sol → rn4 sağ -->
+            <line class="rn-arrow" x1="calc(80% - 70px)" y1="37.5%" x2="calc(20% + 70px)" y2="50%"  stroke="#222" stroke-width="1.4" marker-end="url(#arrowHead)"/>
+            <!-- rn4 sağ → rn5 sol -->
+            <line class="rn-arrow" x1="calc(20% + 70px)" y1="50%"  x2="calc(80% - 70px)" y2="62.5%" stroke="#222" stroke-width="1.4" marker-end="url(#arrowHead)"/>
+            <!-- rn5 sol → rn6 sağ -->
+            <line class="rn-arrow" x1="calc(80% - 70px)" y1="62.5%" x2="calc(20% + 70px)" y2="75%"  stroke="#222" stroke-width="1.4" marker-end="url(#arrowHead)"/>
+            <!-- rn6 sağ → rn7 sol -->
+            <line class="rn-arrow" x1="calc(20% + 70px)" y1="75%"  x2="calc(80% - 70px)" y2="87.5%" stroke="#222" stroke-width="1.4" marker-end="url(#arrowHead)"/>
+            <!-- rn7 sol → rn8 sağ -->
+            <line class="rn-arrow" x1="calc(80% - 70px)" y1="87.5%" x2="calc(20% + 70px)" y2="100%" stroke="#222" stroke-width="1.4" marker-end="url(#arrowHead)"/>
+          </svg>
           <div class="mm-node" id="rn0"><span class="ni">🧭</span>Yön Bul</div>
           <div class="mm-node" id="rn1"><span class="ni">⏰</span>Zamanla</div>
           <div class="mm-node" id="rn2"><span class="ni">🧩</span>Parçala</div>
@@ -850,13 +976,33 @@ footer a:hover{color:var(--acc)}
   <div class="sec-scroll-wrap-s4">
     <button class="scroll-hint sec-scroll-hint" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth',block:'start'})">
       <span>Sadece bir adım daha</span>
-      <div class="scroll-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="#5A6070" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="scroll-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     </button>
   </div>
 </section>
 
 <section class="page-section" id="cta">
-  <div class="cta-scatter-area" id="ctaScatter"></div>
+  <div class="sec-body cta-body">
+    <div class="cta-two-col">
+      <!-- Sol: el yazısı -->
+      <div class="cta-left">
+        <span class="cta-item-c" id="ci2a">her şey</span>
+        <span class="cta-item-c" id="ci2b">senin</span>
+        <span class="cta-item-c" id="ci2c">elinde,</span>
+        <span class="cta-item-c cta-gercekten" id="ci3">gerçekten.</span>
+      </div>
+      <!-- Sağ: başlık + alt yazı + buton -->
+      <div class="cta-right">
+        <p class="cta-item-s" id="ci0">Kayıt saniyeler alır.</p>
+        <div class="cta-row" id="ci1">
+          <span class="cta-item-h" id="ci1a">Hemen</span>
+          <span class="cta-item-h" id="ci1b">üye</span>
+          <span class="cta-item-h" id="ci1c">ol</span>
+        </div>
+        <button class="btn-cta" id="ci4" onclick="openLogin(this)">Kayıt Ol →</button>
+      </div>
+    </div>
+  </div>
   <div class="sec-scroll-wrap" style="visibility:hidden">
     <button class="scroll-hint sec-scroll-hint"><span>—</span><div class="scroll-arrow"></div></button>
   </div>
@@ -1044,18 +1190,21 @@ gsap.registerPlugin(ScrollTrigger);
     gsap.set(titleSpans,{opacity:0,y:-24});
     gsap.set(['.s4-bl','.s4-br'],{opacity:0,y:-24});
     floatRunning=false;
+    clearTimeout(window._drawRnTimer);
+    var svg=document.getElementById('rnArrows');
+    if(svg) svg.style.opacity='0';
   }
 
   function play(){
     resetAll();
-    var dur=0.7, step=0.08, ease='elastic.out(0.6,0.5)';
+    var dur=0.65, step=0.055, ease='power4.out';
 
     rnIds.forEach(function(id,i){
       gsap.to('#'+id,{opacity:1,y:0,duration:dur,delay:i*step,ease:ease});
     });
 
     titleSpans.forEach(function(span,i){
-      gsap.to(span,{opacity:1,y:0,duration:dur,delay:i*step,ease:ease});
+      gsap.to(span,{opacity:1,y:0,duration:dur,delay:i*step*0.9,ease:ease});
     });
 
     var lastDelay=(totalRows-1)*step+dur;
@@ -1071,19 +1220,51 @@ gsap.registerPlugin(ScrollTrigger);
         onComplete: isLast ? function(){
           if(!floatRunning){
             floatRunning=true;
-            leftNodes.forEach(function(n){
-              n.style.animation='';
-            });
+            leftNodes.forEach(function(n){ n.style.animation=''; });
           }
         } : undefined
       });
     });
+    // Animasyon bitince okları göster + koordinatları hesapla
+    clearTimeout(window._drawRnTimer);
+    window._drawRnTimer = setTimeout(function(){
+      var svg = document.getElementById('rnArrows');
+      if(!svg) return;
+      var container = document.getElementById('mmRight');
+      var w = container.offsetWidth;
+      // Kart genişliği 140px, merkezlenmiş: margin-left:-70px
+      // left:20% → merkez=w*0.20, sağ kenar=w*0.20+70
+      // left:80% → merkez=w*0.80, sol kenar=w*0.80-70
+      var xL_right = w*0.20 + 70;  // sol kartın sağ kenarı
+      var xR_left  = w*0.80 - 70;  // sağ kartın sol kenarı
+      var tops = [0, 12.5, 25, 37.5, 50, 62.5, 75, 87.5, 100];
+      var lines = svg.querySelectorAll('line.rn-arrow');
+      lines.forEach(function(line, i){
+        var fromLeft = (i % 2 === 0);
+        var x1 = fromLeft ? xL_right : xR_left;
+        var x2 = fromLeft ? xR_left  : xL_right;
+        var h = container.offsetHeight;
+        var y1 = h * tops[i]   / 100;
+        var y2 = h * tops[i+1] / 100;
+        // Okları %65 kısalt: her ucu merkeze doğru %17.5 çek
+        var shrink = 0.275;
+        var dx = x2 - x1, dy = y2 - y1;
+        var sx1 = x1 + dx*shrink, sy1 = y1 + dy*shrink;
+        var sx2 = x2 - dx*shrink, sy2 = y2 - dy*shrink;
+        line.setAttribute('x1', sx1.toFixed(1));
+        line.setAttribute('y1', sy1.toFixed(1));
+        line.setAttribute('x2', sx2.toFixed(1));
+        line.setAttribute('y2', sy2.toFixed(1));
+      });
+      svg.style.opacity='1';
+    }, Math.round(((totalRows-1)*step + dur + 0.15)*1000));
   }
 
   resetAll();
   ScrollTrigger.create({trigger:'#s4',start:'top 75%',
     onEnter:play,onEnterBack:play,
-    onLeave:resetAll,onLeaveBack:resetAll
+    onLeave:function(){resetAll(); var svg=document.getElementById('rnArrows'); if(svg) svg.style.opacity='0';},
+    onLeaveBack:function(){resetAll(); var svg=document.getElementById('rnArrows'); if(svg) svg.style.opacity='0';}
   });
 })();
 
@@ -1122,11 +1303,23 @@ gsap.registerPlugin(ScrollTrigger);
 
 // ── TEMA ──
 function toggleTheme(){
+  // Tüm sayfaya geçici transition ekle
+  var style=document.createElement('style');
+  style.id='theme-transition';
+  style.textContent='*,*::before,*::after{transition:background-color 3s ease,color 3s ease,border-color 3s ease,box-shadow 3s ease !important;}';
+  document.head.appendChild(style);
+
   var isDark=document.body.classList.toggle('dark');
   localStorage.setItem('bk-theme',isDark?'dark':'light');
   var moon=document.getElementById('iconMoon'),sun=document.getElementById('iconSun');
   if(isDark){moon.style.transform='scale(0) rotate(90deg)';moon.style.opacity='0';sun.style.transform='scale(1) rotate(0deg)';sun.style.opacity='1';}
   else{moon.style.transform='scale(1) rotate(0deg)';moon.style.opacity='1';sun.style.transform='scale(0) rotate(-90deg)';sun.style.opacity='0';}
+
+  // Transition'ı temizle
+  setTimeout(function(){
+    var el=document.getElementById('theme-transition');
+    if(el) el.remove();
+  }, 500);
 }
 (function(){
   if(localStorage.getItem('bk-theme')==='dark'){
@@ -1252,198 +1445,70 @@ function toggleParticles(){
   setTimeout(function(){canvas.style.opacity='1';},1500);
 })();
 
-// ── CTA SCATTER + DRAG ──
+// ── CTA DRAG ──
 (function(){
-  var area = document.getElementById('ctaScatter');
-  if(!area) return;
-
-  var items = [
-    {cls:'is-text', style:'font-size:clamp(38px,5vw,68px);font-family:var(--fh);font-weight:800;letter-spacing:-1.5px;color:var(--txt);', text:'Hemen'},
-    {cls:'is-text', style:'font-size:clamp(38px,5vw,68px);font-family:var(--fh);font-weight:800;letter-spacing:-1.5px;color:var(--txt);', text:'üye'},
-    {cls:'is-text', style:'font-size:clamp(38px,5vw,68px);font-family:var(--fh);font-weight:800;letter-spacing:-1.5px;color:var(--txt);', text:'ol'},
-    {cls:'is-sub',  style:'font-size:clamp(13px,1.2vw,16px);font-family:var(--fb);font-weight:500;color:var(--txt2);', text:'Kayıt'},
-    {cls:'is-sub',  style:'font-size:clamp(13px,1.2vw,16px);font-family:var(--fb);font-weight:500;color:var(--txt2);', text:'saniyeler'},
-    {cls:'is-sub',  style:'font-size:clamp(13px,1.2vw,16px);font-family:var(--fb);font-weight:500;color:var(--txt2);', text:'alır.'},
-    {cls:'is-caveat', style:'font-size:clamp(30px,3.8vw,56px);font-family:Caveat,cursive;font-weight:700;color:var(--txt);', text:'herşey,'},
-    {cls:'is-caveat', style:'font-size:clamp(30px,3.8vw,56px);font-family:Caveat,cursive;font-weight:700;color:var(--txt);', text:'senin'},
-    {cls:'is-caveat', style:'font-size:clamp(30px,3.8vw,56px);font-family:Caveat,cursive;font-weight:700;color:var(--txt);', text:'elinde'},
-    {cls:'is-caveat', style:'font-size:clamp(30px,3.8vw,56px);font-family:Caveat,cursive;font-weight:700;color:var(--txt);', text:'gerçekten.'},
-    {type:'btn'}
-  ];
-
-  function rf(min,max){ return min + Math.random()*(max-min); }
-
-  // Grid tabanlı yerleşim — üst üste binme yok, merkeze yakın dağılım
-  function placeItems(els, W, H){
-    var count = els.length;
-    var cols = Math.ceil(Math.sqrt(count * W / H));
-    var rows = Math.ceil(count / cols);
-    cols = Math.max(cols, 2); rows = Math.max(rows, 2);
-
-    // Merkeze yakın — geniş kenar boşluğu
-    var PAD_X = W * 0.18;
-    var PAD_Y = H * 0.16;
-    var areaW = W - PAD_X*2;
-    var areaH = H - PAD_Y*2;
-    var cellW = areaW / cols;
-    var cellH = areaH / rows;
-
-    // Hücreleri karıştır
-    var cells = [];
-    for(var r=0;r<rows;r++) for(var cc=0;cc<cols;cc++) cells.push({r:r,c:cc});
-    for(var i=cells.length-1;i>0;i--){
-      var j=Math.floor(Math.random()*(i+1));
-      var tmp=cells[i]; cells[i]=cells[j]; cells[j]=tmp;
-    }
-
-    // Her eleman için yerleşim — önce konum hesapla, sonra çakışma kontrolü
-    var placed = []; // {x,y,w,h}
-
-    els.forEach(function(el, i){
-      var cell = cells[i % cells.length];
-      var w = el.offsetWidth  || 100;
-      var h = el.offsetHeight || 40;
-
-      var cx = PAD_X + cell.c * cellW + cellW/2;
-      var cy = PAD_Y + cell.r * cellH + cellH/2;
-
-      // Küçük offset — hücrenin %18'i kadar
-      var bestX = cx - w/2, bestY = cy - h/2;
-      var minOverlap = Infinity;
-
-      // 8 aday konum dene, en az çakışanı seç
-      for(var t=0;t<12;t++){
-        var tx = cx - w/2 + rf(-cellW*0.18, cellW*0.18);
-        var ty = cy - h/2 + rf(-cellH*0.18, cellH*0.18);
-        tx = Math.max(PAD_X*0.5, Math.min(W-w-PAD_X*0.5, tx));
-        ty = Math.max(PAD_Y*0.5, Math.min(H-h-PAD_Y*0.5, ty));
-
-        // Bu konumun toplam çakışma alanını hesapla
-        var overlap = 0;
-        for(var p=0;p<placed.length;p++){
-          var px=placed[p].x, py=placed[p].y, pw=placed[p].w, ph=placed[p].h;
-          var ox2=Math.max(0, Math.min(tx+w,px+pw)-Math.max(tx,px));
-          var oy2=Math.max(0, Math.min(ty+h,py+ph)-Math.max(ty,py));
-          overlap += ox2*oy2;
-        }
-        if(overlap < minOverlap){
-          minOverlap=overlap; bestX=tx; bestY=ty;
-        }
-      }
-
-      el.style.left = bestX + 'px';
-      el.style.top  = bestY + 'px';
-      placed.push({x:bestX, y:bestY, w:w, h:h});
-    });
-  }
+  var dragEls = ['ci0','ci1a','ci1b','ci1c','ci2a','ci2b','ci2c','ci3','ci4'];
 
   function makeDraggable(el){
-    var dragging=false, sx=0, sy=0, ox=0, oy=0;
-
-    function getPos(){
-      return { x: parseFloat(el.style.left), y: parseFloat(el.style.top) };
-    }
-
-    function clamp(val, min, max){ return Math.max(min, Math.min(max, val)); }
-
+    var dragging=false, sx=0, sy=0, tx=0, ty=0, curX=0, curY=0;
     function startDrag(cx,cy){
-      dragging=true;
-      sx=cx; sy=cy;
-      ox=parseFloat(el.style.left);
-      oy=parseFloat(el.style.top);
-      el.style.zIndex='100';
-      el.style.cursor='grabbing';
+      if(dragging) return;
+      dragging=true; sx=cx; sy=cy;
+      curX=tx; curY=ty;
+      el.style.zIndex='100'; el.style.cursor='grabbing';
       el.style.transition='none';
     }
-
     function moveDrag(cx,cy){
       if(!dragging) return;
-      var W=area.offsetWidth, H=area.offsetHeight;
-      var w=el.offsetWidth,   h=el.offsetHeight;
-      var nx = clamp(ox+(cx-sx), 0, W-w);
-      var ny = clamp(oy+(cy-sy), 0, H-h);
-      el.style.left = nx+'px';
-      el.style.top  = ny+'px';
+      tx = curX+(cx-sx);
+      ty = curY+(cy-sy);
+      el.style.transform='translate('+tx+'px,'+ty+'px)';
     }
-
     function endDrag(){
       if(!dragging) return;
-      dragging=false;
-      el.style.zIndex='1';
-      el.style.cursor='grab';
+      dragging=false; el.style.zIndex=''; el.style.cursor='grab';
     }
-
     el.style.cursor='grab';
+    el.style.display='inline-block';
     el.addEventListener('mousedown',function(e){
-      e.preventDefault();
-      startDrag(e.clientX,e.clientY);
-      function mm(e){ moveDrag(e.clientX,e.clientY); }
-      function mu(){ endDrag(); window.removeEventListener('mousemove',mm); window.removeEventListener('mouseup',mu); }
-      window.addEventListener('mousemove',mm);
-      window.addEventListener('mouseup',mu);
+      e.preventDefault(); startDrag(e.clientX,e.clientY);
+      function mm(e){moveDrag(e.clientX,e.clientY);}
+      function mu(){endDrag();window.removeEventListener('mousemove',mm);window.removeEventListener('mouseup',mu);}
+      window.addEventListener('mousemove',mm); window.addEventListener('mouseup',mu);
     });
-    el.addEventListener('touchstart',function(e){
-      startDrag(e.touches[0].clientX,e.touches[0].clientY);
-    },{passive:true});
-    el.addEventListener('touchmove',function(e){
-      e.preventDefault();
-      moveDrag(e.touches[0].clientX,e.touches[0].clientY);
-    },{passive:false});
+    el.addEventListener('touchstart',function(e){startDrag(e.touches[0].clientX,e.touches[0].clientY);},{passive:true});
+    el.addEventListener('touchmove',function(e){e.preventDefault();moveDrag(e.touches[0].clientX,e.touches[0].clientY);},{passive:false});
     el.addEventListener('touchend',endDrag);
   }
 
-  var PAD=60;
-
-  function scatter(){
-    area.innerHTML='';
-    // Alan boyutunu güvenli ölç — 0 ise window fallback
-    var W=area.offsetWidth  || window.innerWidth;
-    var H=area.offsetHeight || (window.innerHeight - 64);
-
-    items.forEach(function(item, i){
-      var el;
-      if(item.type==='btn'){
-        el=document.createElement('button');
-        el.className='btn-cta cta-item';
-        el.textContent='Kayıt Ol →';
-        el.addEventListener('click',function(){ openLogin(el); });
-      } else {
-        el=document.createElement('div');
-        el.className='cta-item '+item.cls;
-        if(item.style) el.style.cssText=item.style;
-        el.textContent=item.text;
-      }
-
-      el.style.position='absolute';
-      el.style.whiteSpace='nowrap';
-      el.style.lineHeight='1.1';
+  function initCta(){
+    dragEls.forEach(function(id){
+      var el=document.getElementById(id);
+      if(!el) return;
       el.style.opacity='0';
-      el.style.transition='opacity 0.5s ease';
-      el.style.transform='none';
-      area.appendChild(el);
-
-      // rAF sonrası boyutu ölç — DOM'a eklendikten bir frame sonra kesin boyut var
-      (function(el, idx){
-        requestAnimationFrame(function(){
-          requestAnimationFrame(function(){
-            var w=el.offsetWidth||100, h=el.offsetHeight||40;
-            var x=rf(PAD, Math.max(PAD+1, W-w-PAD));
-            var y=rf(PAD, Math.max(PAD+1, H-h-PAD));
-            el.style.left=x+'px';
-            el.style.top=y+'px';
-            setTimeout(function(){ el.style.opacity='1'; }, idx*35);
-            makeDraggable(el);
-          });
-        });
-      })(el, i);
+      el.style.transform='translateY(14px)';
+      el.style.transition='opacity .5s ease, transform .5s ease';
+    });
+  }
+  function playCta(){
+    dragEls.forEach(function(id,i){
+      var el=document.getElementById(id);
+      if(!el) return;
+      setTimeout(function(){
+        el.style.opacity='1';
+        el.style.transform='translate(0,0)';
+        el.style.transition='opacity .5s ease, transform .5s ease';
+        setTimeout(function(){
+          el.style.transition='none';
+          makeDraggable(el);
+        }, 520);
+      }, i*55);
     });
   }
 
-  ScrollTrigger.create({
-    trigger:'#cta',
-    start:'top 80%',
-    onEnter: scatter,
-    onEnterBack: scatter
+  initCta();
+  ScrollTrigger.create({trigger:'#cta',start:'top 75%',
+    onEnter:playCta, onEnterBack:playCta
   });
 })();
 
